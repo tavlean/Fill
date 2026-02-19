@@ -70,8 +70,8 @@
       visibility: hidden;
       pointer-events: none;
       transition:
-        opacity 460ms cubic-bezier(0.22, 1, 0.36, 1),
-        visibility 0s linear 460ms;
+        opacity 720ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 720ms;
       z-index: 10;
     }
 
@@ -418,21 +418,21 @@
       bottom: calc(clamp(14px, 4vh, 38px) + 96px);
       transform: translateX(-50%) translateY(8px);
       z-index: 9;
-      padding: 8px 12px;
+      padding: 12px 32px;
       border-radius: 999px;
       border: 1px solid var(--ui-hairline);
       background: rgba(26, 34, 40, 0.44);
       color: rgba(214, 230, 245, 0.62);
-      font-size: 14px;
+      font-size: 20px;
       letter-spacing: 0.01em;
       backdrop-filter: blur(12px) saturate(140%);
       -webkit-backdrop-filter: blur(12px) saturate(140%);
       opacity: 0;
       visibility: hidden;
       transition:
-        opacity 320ms ease,
-        transform 320ms ease,
-        visibility 0s linear 320ms;
+        opacity 900ms ease,
+        transform 900ms ease,
+        visibility 0s linear 900ms;
       pointer-events: none;
     }
 
@@ -441,8 +441,8 @@
       visibility: visible;
       transform: translateX(-50%) translateY(0);
       transition:
-        opacity 320ms ease,
-        transform 320ms ease,
+        opacity 1800ms ease,
+        transform 1800ms ease,
         visibility 0s linear 0s;
     }
 
@@ -507,7 +507,8 @@
       }
 
       .hint-toast {
-        font-size: 12px;
+        font-size: 16px;
+        padding: 9px 18px;
       }
 
       .help-card {
@@ -598,9 +599,11 @@
       var hideTimer = null;
       var errorTimer = null;
       var hintTimer = null;
+      var hintDelayTimer = null;
       var hoverHintsEnabled = !!(window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches);
       var hintShownFromHover = false;
-      var HIDE_DELAY_MS = 3000;
+      var HOVER_HINT_DELAY_MS = 1500;
+      var HIDE_DELAY_MS = 5000;
 
       function parseRgb(text) {
         var parts = text && text.match(/[\d.]+/g);
@@ -658,6 +661,8 @@
       }
 
       function hideHint() {
+        clearTimeout(hintDelayTimer);
+        hintDelayTimer = null;
         clearTimeout(hintTimer);
         hintToast.classList.remove("visible");
       }
@@ -667,7 +672,7 @@
           return;
         }
         hintToast.classList.add("visible");
-        hintTimer = setTimeout(hideHint, 2800);
+        hintTimer = setTimeout(hideHint, 4800);
       }
 
       function shouldPauseAutoHide() {
@@ -870,6 +875,7 @@
         hideHint();
         if (helpVisible && !helpCard.contains(event.target) && event.target !== helpGhost) {
           setHelpVisible(false);
+          return;
         }
         if (helpCard.contains(event.target) || event.target === helpGhost) {
           return;
@@ -881,14 +887,20 @@
       });
 
       document.addEventListener("pointermove", function (event) {
-        if (!hoverHintsEnabled || hintShownFromHover || panelVisible || helpVisible) {
+        if (!hoverHintsEnabled || hintShownFromHover || panelVisible || helpVisible || hintDelayTimer) {
           return;
         }
         if (event.pointerType && event.pointerType !== "mouse") {
           return;
         }
-        hintShownFromHover = true;
-        showHint();
+        hintDelayTimer = setTimeout(function () {
+          hintDelayTimer = null;
+          if (panelVisible || helpVisible || hintShownFromHover) {
+            return;
+          }
+          hintShownFromHover = true;
+          showHint();
+        }, HOVER_HINT_DELAY_MS);
       });
 
       document.addEventListener("keydown", function (event) {
