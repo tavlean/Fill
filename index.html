@@ -22,16 +22,16 @@
       --input-text: rgba(248, 252, 255, 0.95);
       --input-placeholder: rgba(223, 238, 250, 0.58);
       --custom-preview: linear-gradient(150deg, #8b5cf6, #3b82f6 50%, #22d3ee);
-      --assist-fg: rgba(245, 250, 255, 0.96);
-      --assist-muted: rgba(223, 236, 248, 0.88);
-      --assist-bg: rgba(14, 21, 30, 0.58);
-      --assist-bg-strong: rgba(10, 16, 24, 0.72);
-      --assist-border: rgba(255, 255, 255, 0.32);
-      --assist-row-bg: rgba(255, 255, 255, 0.1);
-      --assist-row-border: rgba(255, 255, 255, 0.18);
-      --assist-key-bg: rgba(255, 255, 255, 0.2);
-      --assist-key-border: rgba(255, 255, 255, 0.32);
-      --assist-shadow: rgba(0, 0, 0, 0.42);
+      --assist-fg: rgba(237, 240, 246, 0.98);
+      --assist-muted: rgba(223, 227, 236, 0.9);
+      --assist-bg: rgba(35, 37, 43, 0.9);
+      --assist-bg-strong: rgba(28, 31, 38, 0.94);
+      --assist-border: rgba(132, 137, 149, 0.45);
+      --assist-row-bg: rgba(42, 45, 53, 0.92);
+      --assist-row-border: rgba(113, 118, 130, 0.48);
+      --assist-key-bg: rgba(29, 32, 39, 0.96);
+      --assist-key-border: rgba(120, 126, 139, 0.62);
+      --assist-shadow: rgba(0, 0, 0, 0.5);
     }
 
     body.ui-light {
@@ -49,16 +49,16 @@
       --input-border: rgba(18, 22, 28, 0.16);
       --input-text: rgba(18, 23, 30, 0.95);
       --input-placeholder: rgba(34, 41, 52, 0.54);
-      --assist-fg: rgba(248, 252, 255, 0.98);
-      --assist-muted: rgba(230, 239, 249, 0.92);
-      --assist-bg: rgba(8, 14, 21, 0.62);
-      --assist-bg-strong: rgba(7, 12, 18, 0.76);
-      --assist-border: rgba(255, 255, 255, 0.38);
-      --assist-row-bg: rgba(255, 255, 255, 0.12);
-      --assist-row-border: rgba(255, 255, 255, 0.21);
-      --assist-key-bg: rgba(255, 255, 255, 0.24);
-      --assist-key-border: rgba(255, 255, 255, 0.36);
-      --assist-shadow: rgba(0, 0, 0, 0.46);
+      --assist-fg: rgba(237, 240, 246, 0.98);
+      --assist-muted: rgba(223, 227, 236, 0.9);
+      --assist-bg: rgba(35, 37, 43, 0.92);
+      --assist-bg-strong: rgba(28, 31, 38, 0.96);
+      --assist-border: rgba(132, 137, 149, 0.5);
+      --assist-row-bg: rgba(42, 45, 53, 0.94);
+      --assist-row-border: rgba(113, 118, 130, 0.52);
+      --assist-key-bg: rgba(29, 32, 39, 0.98);
+      --assist-key-border: rgba(120, 126, 139, 0.65);
+      --assist-shadow: rgba(0, 0, 0, 0.52);
     }
 
     html,
@@ -348,13 +348,11 @@
       right: 14px;
       bottom: 56px;
       z-index: 21;
-      width: min(92vw, 286px);
+      width: min(92vw, 244px);
       padding: 16px 16px 14px;
       border-radius: 18px;
       border: 1px solid var(--assist-border);
-      background:
-        linear-gradient(126deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03)),
-        var(--assist-bg);
+      background: var(--assist-bg);
       box-shadow:
         0 16px 30px var(--assist-shadow),
         inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -389,17 +387,18 @@
     }
 
     .shortcut {
-      width: 100%;
-      min-height: 50px;
-      padding: 9px 10px;
+      width: 94%;
+      min-height: 46px;
+      padding: 8px 9px 8px 14px;
       border-radius: 12px;
       border: 1px solid var(--assist-row-border);
       background: var(--assist-row-bg);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: 6px;
       box-sizing: border-box;
+      margin-inline: auto;
     }
 
     .shortcut-label {
@@ -408,12 +407,13 @@
       line-height: 1.2;
       letter-spacing: 0.01em;
       text-align: left;
+      max-width: calc(100% - 46px);
     }
 
     .shortcut-key {
-      min-width: 38px;
-      height: 32px;
-      padding: 0 8px;
+      min-width: 34px;
+      height: 30px;
+      padding: 0 7px;
       border-radius: 9px;
       border: 1px solid var(--assist-key-border);
       background: var(--assist-key-bg);
@@ -554,7 +554,7 @@
       .help-card {
         right: 10px;
         bottom: 50px;
-        width: min(94vw, 278px);
+        width: min(94vw, 242px);
       }
 
       .help-ghost {
