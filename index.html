@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Screen Color Fill</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: black;
+      transition: background-color 140ms linear;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    #controls {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 200ms ease, visibility 200ms ease;
+      z-index: 10;
+    }
+
+    #controls.visible {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .panel {
+      width: min(92vw, 460px);
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(20, 20, 20, 0.82);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      box-shadow: 0 10px 36px rgba(0, 0, 0, 0.45);
+    }
+
+    .presets {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    button,
+    input {
+      border: 0;
+      border-radius: 8px;
+      font-size: 14px;
+      padding: 10px 12px;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    button {
+      cursor: pointer;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.92);
+      color: #111;
+    }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 2px solid #4da3ff;
+      outline-offset: 1px;
+    }
+
+    .custom {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+    }
+
+    input {
+      background: rgba(255, 255, 255, 0.96);
+      color: #111;
+      min-width: 0;
+    }
+
+    #error {
+      margin-top: 6px;
+      min-height: 16px;
+      font-size: 12px;
+      line-height: 1.2;
+      color: #ffb4b4;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 120ms ease;
+    }
+
+    #error.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="controls" aria-hidden="true">
+    <div class="panel" role="dialog" aria-label="Color controls">
+      <div class="presets">
+        <button type="button" data-color="black">Black</button>
+        <button type="button" data-color="white">White</button>
+        <button type="button" data-color="red">Red</button>
+      </div>
+      <div class="custom">
+        <input id="colorInput" type="text" autocomplete="off" spellcheck="false" placeholder="Enter color (e.g. #0f0, rgb(...), hsl(...), red)">
+        <button id="applyBtn" type="button">Apply</button>
+      </div>
+      <div id="error" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var controls = document.getElementById("controls");
+      var panel = controls.querySelector(".panel");
+      var input = document.getElementById("colorInput");
+      var applyBtn = document.getElementById("applyBtn");
+      var errorEl = document.getElementById("error");
+      var presetButtons = controls.querySelectorAll("[data-color]");
+
+      var currentColor = "black";
+      var panelVisible = false;
+      var hideTimer = null;
+      var errorTimer = null;
+      var HIDE_DELAY_MS = 3000;
+
+      function setColor(color) {
+        currentColor = color;
+        document.body.style.backgroundColor = color;
+      }
+
+      function resetHideTimer() {
+        clearTimeout(hideTimer);
+        if (!panelVisible) {
+          return;
+        }
+        hideTimer = setTimeout(function () {
+          hidePanel();
+        }, HIDE_DELAY_MS);
+      }
+
+      function showPanel(focusInput) {
+        if (!panelVisible) {
+          panelVisible = true;
+          controls.classList.add("visible");
+          controls.setAttribute("aria-hidden", "false");
+        }
+        resetHideTimer();
+        if (focusInput) {
+          input.focus();
+          input.select();
+        }
+      }
+
+      function hidePanel() {
+        clearTimeout(hideTimer);
+        panelVisible = false;
+        controls.classList.remove("visible");
+        controls.setAttribute("aria-hidden", "true");
+      }
+
+      function showError(message) {
+        clearTimeout(errorTimer);
+        errorEl.textContent = message;
+        errorEl.classList.add("visible");
+        errorTimer = setTimeout(function () {
+          errorEl.classList.remove("visible");
+          errorEl.textContent = "";
+        }, 1300);
+      }
+
+      function tryApplyCustomColor() {
+        var value = input.value.trim();
+        if (!value) {
+          showError("Invalid color");
+          resetHideTimer();
+          return;
+        }
+        if (window.CSS && CSS.supports && CSS.supports("color", value)) {
+          setColor(value);
+          hidePanel();
+          return;
+        }
+        showError("Invalid color");
+        resetHideTimer();
+      }
+
+      function toggleFullscreen() {
+        try {
+          if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+          } else if (document.fullscreenElement && document.exitFullscreen) {
+            document.exitFullscreen();
+          }
+        } catch (_err) {
+        }
+      }
+
+      presetButtons.forEach(function (button) {
+        button.addEventListener("click", function (event) {
+          event.stopPropagation();
+          setColor(button.getAttribute("data-color"));
+          hidePanel();
+        });
+      });
+
+      applyBtn.addEventListener("click", function (event) {
+        event.stopPropagation();
+        tryApplyCustomColor();
+      });
+
+      input.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          tryApplyCustomColor();
+          return;
+        }
+        if (event.key === "Escape") {
+          event.preventDefault();
+          hidePanel();
+          return;
+        }
+        resetHideTimer();
+      });
+
+      input.addEventListener("input", resetHideTimer);
+
+      controls.addEventListener("pointerdown", function (event) {
+        if (event.target === controls) {
+          resetHideTimer();
+          return;
+        }
+        resetHideTimer();
+      });
+
+      panel.addEventListener("pointerdown", function (event) {
+        event.stopPropagation();
+        resetHideTimer();
+      });
+
+      document.addEventListener("pointerdown", function (event) {
+        if (panel.contains(event.target)) {
+          return;
+        }
+        showPanel(false);
+      });
+
+      document.addEventListener("keydown", function (event) {
+        var key = event.key;
+        if (key === "Escape") {
+          hidePanel();
+          return;
+        }
+        if (key === "b" || key === "B") {
+          setColor("black");
+          hidePanel();
+          return;
+        }
+        if (key === "w" || key === "W") {
+          setColor("white");
+          hidePanel();
+          return;
+        }
+        if (key === "r" || key === "R") {
+          setColor("red");
+          hidePanel();
+          return;
+        }
+        if (key === "c" || key === "C") {
+          event.preventDefault();
+          showPanel(true);
+          return;
+        }
+        if (key === "f" || key === "F") {
+          event.preventDefault();
+          toggleFullscreen();
+          return;
+        }
+        if (
+          key === "Enter" ||
+          key === "NumpadEnter" ||
+          key === "OK" ||
+          key === "Select"
+        ) {
+          if (document.activeElement === input) {
+            return;
+          }
+          event.preventDefault();
+          showPanel(true);
+        }
+      });
+
+      setColor(currentColor);
+    })();
+  </script>
+</body>
+</html>
