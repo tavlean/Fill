@@ -7,6 +7,42 @@
   <style>
     :root {
       color-scheme: dark;
+      --ui-ink: rgba(243, 249, 255, 0.94);
+      --ui-muted: rgba(218, 233, 247, 0.72);
+      --ui-hairline: rgba(255, 255, 255, 0.24);
+      --ui-glass-a: rgba(226, 236, 236, 0.27);
+      --ui-glass-b: rgba(132, 147, 152, 0.21);
+      --ui-shadow: rgba(0, 0, 0, 0.34);
+      --ui-ring: rgba(131, 206, 255, 0.92);
+      --form-bg: rgba(20, 28, 36, 0.44);
+      --form-border: rgba(255, 255, 255, 0.16);
+      --form-inset: rgba(255, 255, 255, 0.18);
+      --input-bg: rgba(16, 23, 31, 0.52);
+      --input-border: rgba(255, 255, 255, 0.16);
+      --input-text: rgba(248, 252, 255, 0.95);
+      --input-placeholder: rgba(223, 238, 250, 0.58);
+      --help-kbd-bg: rgba(255, 255, 255, 0.15);
+      --help-kbd-border: rgba(255, 255, 255, 0.18);
+      --custom-preview: linear-gradient(150deg, #8b5cf6, #3b82f6 50%, #22d3ee);
+    }
+
+    body.ui-light {
+      --ui-ink: rgba(16, 22, 30, 0.9);
+      --ui-muted: rgba(22, 30, 39, 0.68);
+      --ui-hairline: rgba(18, 22, 28, 0.2);
+      --ui-glass-a: rgba(255, 255, 255, 0.37);
+      --ui-glass-b: rgba(222, 228, 234, 0.3);
+      --ui-shadow: rgba(0, 0, 0, 0.22);
+      --ui-ring: rgba(38, 93, 180, 0.88);
+      --form-bg: rgba(246, 250, 255, 0.56);
+      --form-border: rgba(18, 22, 28, 0.16);
+      --form-inset: rgba(255, 255, 255, 0.26);
+      --input-bg: rgba(255, 255, 255, 0.67);
+      --input-border: rgba(18, 22, 28, 0.16);
+      --input-text: rgba(18, 23, 30, 0.95);
+      --input-placeholder: rgba(34, 41, 52, 0.54);
+      --help-kbd-bg: rgba(0, 0, 0, 0.08);
+      --help-kbd-border: rgba(0, 0, 0, 0.12);
     }
 
     html,
@@ -56,8 +92,8 @@
       display: grid;
       justify-items: center;
       gap: 12px;
-      transform: translateY(18px) scale(0.97);
-      filter: blur(8px);
+      transform: translateY(20px) scale(0.97);
+      filter: blur(10px);
       transition:
         transform 560ms cubic-bezier(0.22, 1, 0.36, 1),
         filter 560ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -74,12 +110,11 @@
       gap: 12px;
       padding: 12px 14px;
       border-radius: 999px;
-      background:
-        linear-gradient(128deg, rgba(224, 235, 233, 0.28), rgba(146, 158, 161, 0.22));
-      border: 1px solid rgba(255, 255, 255, 0.26);
+      background: linear-gradient(128deg, var(--ui-glass-a), var(--ui-glass-b));
+      border: 1px solid var(--ui-hairline);
       box-shadow:
-        0 20px 40px rgba(0, 0, 0, 0.34),
-        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        0 20px 42px var(--ui-shadow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.36);
       backdrop-filter: blur(22px) saturate(170%);
       -webkit-backdrop-filter: blur(22px) saturate(170%);
     }
@@ -88,18 +123,18 @@
       position: relative;
       width: 64px;
       height: 64px;
-      border: 1px solid rgba(255, 255, 255, 0.24);
+      border: 1px solid rgba(255, 255, 255, 0.26);
       border-radius: 20px;
       padding: 0;
       cursor: pointer;
       box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        inset 0 -14px 24px rgba(0, 0, 0, 0.22),
-        0 9px 16px rgba(0, 0, 0, 0.28);
+        inset 0 1px 0 rgba(255, 255, 255, 0.22),
+        inset 0 -14px 24px rgba(0, 0, 0, 0.24),
+        0 9px 16px rgba(0, 0, 0, 0.26);
       transition:
-        transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
-        box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1),
-        border-color 300ms ease;
+        transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 320ms ease;
     }
 
     .swatch::after {
@@ -107,29 +142,38 @@
       position: absolute;
       inset: 1px;
       border-radius: 18px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 48%);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.23), rgba(255, 255, 255, 0) 48%);
       pointer-events: none;
     }
 
+    .swatch.is-active {
+      border-color: var(--ui-ring);
+      box-shadow:
+        0 0 0 2px var(--ui-ring),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22),
+        inset 0 -10px 20px rgba(0, 0, 0, 0.18),
+        0 12px 24px rgba(0, 0, 0, 0.34);
+    }
+
     .swatch-black {
-      background: linear-gradient(150deg, #272727, #060606 58%, #000000);
+      background: linear-gradient(150deg, #292929, #080808 58%, #000000);
     }
 
     .swatch-white {
-      background: linear-gradient(150deg, #ffffff, #ececec 58%, #d8d8d8);
+      background: linear-gradient(150deg, #ffffff, #ececec 58%, #d7d7d7);
     }
 
     .swatch-red {
-      background: linear-gradient(150deg, #ff6d6d, #db1f1f 58%, #8e0909);
+      background: linear-gradient(150deg, #ff6d6d, #dc1f1f 58%, #8f0a0a);
     }
 
     .swatch-custom {
-      background: linear-gradient(150deg, #8b5cf6, #3b82f6 50%, #22d3ee);
-      color: rgba(255, 255, 255, 0.95);
-      font-size: 34px;
+      background: var(--custom-preview);
+      color: var(--ui-ink);
+      font-size: 35px;
       line-height: 1;
       font-weight: 300;
-      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
     }
 
     .swatch-custom span {
@@ -139,33 +183,36 @@
 
     .swatch:focus-visible,
     .custom-form input:focus-visible,
-    .apply-btn:focus-visible {
-      outline: 2px solid #7bc6ff;
+    .apply-btn:focus-visible,
+    .help-ghost:focus-visible,
+    .pin-btn:focus-visible {
+      outline: 2px solid var(--ui-ring);
       outline-offset: 2px;
     }
 
     .custom-form {
       width: min(92vw, 560px);
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
       gap: 10px;
-      padding: 10px;
+      padding: 9px;
       border-radius: 16px;
-      background: rgba(40, 48, 52, 0.58);
-      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: var(--form-bg);
+      border: 1px solid var(--form-border);
       box-shadow:
-        0 14px 28px rgba(0, 0, 0, 0.24),
-        inset 0 1px 0 rgba(255, 255, 255, 0.26);
-      backdrop-filter: blur(16px) saturate(150%);
-      -webkit-backdrop-filter: blur(16px) saturate(150%);
+        0 12px 24px rgba(0, 0, 0, 0.26),
+        inset 0 1px 0 var(--form-inset);
+      backdrop-filter: blur(10px) saturate(125%);
+      -webkit-backdrop-filter: blur(10px) saturate(125%);
       opacity: 0;
       transform: translateY(-10px) scale(0.98);
       pointer-events: none;
       visibility: hidden;
       transition:
-        opacity 280ms ease,
-        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
-        visibility 0s linear 280ms;
+        opacity 320ms ease,
+        transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 320ms;
     }
 
     .custom-form.open {
@@ -174,42 +221,66 @@
       pointer-events: auto;
       visibility: visible;
       transition:
-        opacity 280ms ease,
-        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 320ms ease,
+        transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
         visibility 0s linear 0s;
+    }
+
+    .color-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 1px solid var(--ui-hairline);
+      background: black;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        0 2px 7px rgba(0, 0, 0, 0.35);
     }
 
     .custom-form input,
     .apply-btn {
       border: 0;
-      border-radius: 11px;
-      padding: 10px 12px;
+      border-radius: 12px;
       box-sizing: border-box;
-      font-size: 14px;
       outline: none;
     }
 
     .custom-form input {
       min-width: 0;
-      background: rgba(255, 255, 255, 0.92);
-      color: #111;
+      padding: 11px 13px;
+      font-size: 14px;
+      letter-spacing: 0.01em;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--input-text);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    }
+
+    .custom-form input::placeholder {
+      color: var(--input-placeholder);
     }
 
     .apply-btn {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
       cursor: pointer;
-      color: #eaf5ff;
-      font-weight: 600;
-      background: linear-gradient(145deg, #2364ff, #1440aa);
+      color: var(--ui-ink);
+      font-size: 18px;
+      line-height: 1;
+      background: linear-gradient(145deg, rgba(57, 109, 248, 0.8), rgba(37, 77, 176, 0.86));
+      border: 1px solid rgba(255, 255, 255, 0.18);
       box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.24),
-        0 6px 10px rgba(3, 18, 59, 0.4);
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 6px 12px rgba(8, 18, 54, 0.25);
     }
 
     #error {
       min-height: 16px;
       font-size: 12px;
       line-height: 1.2;
-      color: #ffd3d3;
+      color: rgba(255, 212, 212, 0.95);
       letter-spacing: 0.01em;
       text-align: center;
       text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
@@ -219,6 +290,153 @@
 
     #error.visible {
       opacity: 1;
+    }
+
+    .help-ghost {
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      z-index: 22;
+      height: 32px;
+      padding: 0 10px;
+      border: 1px solid var(--ui-hairline);
+      border-radius: 999px;
+      background: linear-gradient(130deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.04));
+      color: var(--ui-muted);
+      font-size: 12px;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      opacity: 0.48;
+      backdrop-filter: blur(12px) saturate(150%);
+      -webkit-backdrop-filter: blur(12px) saturate(150%);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      transition:
+        opacity 220ms ease,
+        transform 220ms ease,
+        color 220ms ease;
+    }
+
+    .help-ghost.active {
+      opacity: 0.9;
+      color: var(--ui-ink);
+    }
+
+    .help-card {
+      position: fixed;
+      right: 14px;
+      bottom: 56px;
+      z-index: 21;
+      width: min(92vw, 330px);
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid var(--ui-hairline);
+      background: linear-gradient(126deg, rgba(255, 255, 255, 0.24), rgba(138, 152, 162, 0.2));
+      box-shadow:
+        0 16px 34px var(--ui-shadow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.33);
+      backdrop-filter: blur(22px) saturate(160%);
+      -webkit-backdrop-filter: blur(22px) saturate(160%);
+      color: var(--ui-ink);
+      opacity: 0;
+      transform: translateY(8px) scale(0.98);
+      visibility: hidden;
+      pointer-events: none;
+      transition:
+        opacity 280ms ease,
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 280ms;
+    }
+
+    .help-card.open {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      visibility: visible;
+      pointer-events: auto;
+      transition:
+        opacity 280ms ease,
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 0s;
+    }
+
+    .keys {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 14px;
+      margin-bottom: 10px;
+    }
+
+    .shortcut {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--ui-muted);
+      font-size: 12px;
+      letter-spacing: 0.01em;
+    }
+
+    .shortcut kbd {
+      display: inline-block;
+      min-width: 18px;
+      padding: 2px 6px;
+      border-radius: 6px;
+      border: 1px solid var(--help-kbd-border);
+      background: var(--help-kbd-bg);
+      color: var(--ui-ink);
+      font-size: 11px;
+      line-height: 1;
+      font-family: inherit;
+    }
+
+    .pin-btn {
+      width: 100%;
+      border: 1px solid var(--ui-hairline);
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 12px;
+      color: var(--ui-ink);
+      background: rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      letter-spacing: 0.01em;
+      transition: background 200ms ease, border-color 200ms ease;
+    }
+
+    .pin-btn.active {
+      background: rgba(120, 198, 255, 0.2);
+      border-color: var(--ui-ring);
+    }
+
+    .hint-toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(clamp(14px, 4vh, 38px) + 96px);
+      transform: translateX(-50%) translateY(8px);
+      z-index: 9;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--ui-hairline);
+      background: rgba(26, 34, 40, 0.44);
+      color: rgba(214, 230, 245, 0.62);
+      font-size: 14px;
+      letter-spacing: 0.01em;
+      backdrop-filter: blur(12px) saturate(140%);
+      -webkit-backdrop-filter: blur(12px) saturate(140%);
+      opacity: 0;
+      visibility: hidden;
+      transition:
+        opacity 320ms ease,
+        transform 320ms ease,
+        visibility 0s linear 320ms;
+      pointer-events: none;
+    }
+
+    .hint-toast.visible {
+      opacity: 0.82;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+      transition:
+        opacity 320ms ease,
+        transform 320ms ease,
+        visibility 0s linear 0s;
     }
 
     .visually-hidden {
@@ -240,6 +458,12 @@
           inset 0 -10px 20px rgba(0, 0, 0, 0.18),
           0 16px 26px rgba(0, 0, 0, 0.34);
         border-color: rgba(255, 255, 255, 0.4);
+      }
+
+      .help-ghost:hover {
+        opacity: 0.9;
+        color: var(--ui-ink);
+        transform: translateY(-1px);
       }
 
       .apply-btn:hover {
@@ -271,9 +495,22 @@
         border-radius: 16px;
       }
 
-      .custom-form input,
-      .apply-btn {
+      .custom-form input {
         font-size: 16px;
+      }
+
+      .hint-toast {
+        font-size: 12px;
+      }
+
+      .help-card {
+        right: 10px;
+        bottom: 50px;
+      }
+
+      .help-ghost {
+        right: 10px;
+        bottom: 10px;
       }
     }
   </style>
@@ -296,12 +533,29 @@
         </button>
       </div>
       <form id="customForm" class="custom-form" novalidate>
-        <input id="colorInput" type="text" autocomplete="off" spellcheck="false" placeholder="Enter color (e.g. #0f0, rgb(...), hsl(...), red)">
-        <button id="applyBtn" class="apply-btn" type="submit">Apply</button>
+        <span id="colorDot" class="color-dot" aria-hidden="true"></span>
+        <input id="colorInput" type="text" autocomplete="off" spellcheck="false" placeholder="Any CSS color">
+        <button id="applyBtn" class="apply-btn" type="submit" aria-label="Apply color">></button>
       </form>
       <div id="error" aria-live="polite"></div>
     </div>
   </div>
+
+  <button id="helpGhost" class="help-ghost" type="button" aria-label="Show tips and shortcuts">? tips</button>
+
+  <div id="helpCard" class="help-card" role="dialog" aria-hidden="true" aria-label="Shortcuts and options">
+    <div class="keys">
+      <div class="shortcut"><kbd>B</kbd><span>Black</span></div>
+      <div class="shortcut"><kbd>W</kbd><span>White</span></div>
+      <div class="shortcut"><kbd>R</kbd><span>Red</span></div>
+      <div class="shortcut"><kbd>C</kbd><span>Custom</span></div>
+      <div class="shortcut"><kbd>F</kbd><span>Fullscreen</span></div>
+      <div class="shortcut"><kbd>Esc</kbd><span>Hide</span></div>
+    </div>
+    <button id="pinToggle" class="pin-btn" type="button" aria-pressed="false">Pin controls</button>
+  </div>
+
+  <div id="hintToast" class="hint-toast" aria-live="polite">Click anywhere for controls</div>
 
   <script>
     (function () {
@@ -309,20 +563,75 @@
       var panel = controls.querySelector(".dock-wrap");
       var customForm = document.getElementById("customForm");
       var customToggle = document.getElementById("customToggle");
+      var colorDot = document.getElementById("colorDot");
       var input = document.getElementById("colorInput");
       var errorEl = document.getElementById("error");
       var presetButtons = controls.querySelectorAll("[data-color]");
+      var helpGhost = document.getElementById("helpGhost");
+      var helpCard = document.getElementById("helpCard");
+      var pinToggle = document.getElementById("pinToggle");
+      var hintToast = document.getElementById("hintToast");
 
+      var PRESETS = ["black", "white", "red"];
       var currentColor = "black";
       var panelVisible = false;
       var customVisible = false;
+      var helpVisible = false;
+      var controlsPinned = false;
       var hideTimer = null;
       var errorTimer = null;
+      var hintTimer = null;
+      var hoverHintsEnabled = !!(window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches);
+      var hintShownFromHover = false;
       var HIDE_DELAY_MS = 3000;
 
-      function setColor(color) {
+      function parseRgb(text) {
+        var parts = text && text.match(/[\d.]+/g);
+        if (!parts || parts.length < 3) {
+          return null;
+        }
+        return {
+          r: Math.max(0, Math.min(255, parseFloat(parts[0]))),
+          g: Math.max(0, Math.min(255, parseFloat(parts[1]))),
+          b: Math.max(0, Math.min(255, parseFloat(parts[2])))
+        };
+      }
+
+      function updateUiTone() {
+        var rgb = parseRgb(getComputedStyle(document.body).backgroundColor);
+        if (!rgb) {
+          return;
+        }
+        var luminance = (0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b) / 255;
+        var lightBg = luminance > 0.62;
+        document.body.classList.toggle("ui-light", lightBg);
+      }
+
+      function setActiveSwatch(source) {
+        presetButtons.forEach(function (button) {
+          button.classList.toggle("is-active", button.getAttribute("data-color") === source);
+        });
+        customToggle.classList.toggle("is-active", source === "custom");
+      }
+
+      function setColor(color, source) {
         currentColor = color;
         document.body.style.backgroundColor = color;
+        colorDot.style.background = color;
+        updateUiTone();
+
+        if (source === "custom") {
+          customToggle.style.setProperty("--custom-preview", color);
+          setActiveSwatch("custom");
+          return;
+        }
+
+        if (PRESETS.indexOf(source) !== -1) {
+          setActiveSwatch(source);
+          return;
+        }
+
+        setActiveSwatch("custom");
       }
 
       function clearError() {
@@ -331,9 +640,32 @@
         errorEl.textContent = "";
       }
 
+      function hideHint() {
+        clearTimeout(hintTimer);
+        hintToast.classList.remove("visible");
+      }
+
+      function showHint() {
+        if (!hoverHintsEnabled) {
+          return;
+        }
+        hintToast.classList.add("visible");
+        hintTimer = setTimeout(hideHint, 2800);
+      }
+
+      function shouldPauseAutoHide() {
+        var active = document.activeElement;
+        var hasControlFocus = active && controls.contains(active);
+        var helpFocused = active && helpCard.contains(active);
+        return controlsPinned ||
+          panel.matches(":hover") ||
+          hasControlFocus ||
+          (helpVisible && (helpCard.matches(":hover") || helpFocused));
+      }
+
       function resetHideTimer() {
         clearTimeout(hideTimer);
-        if (!panelVisible) {
+        if (!panelVisible || controlsPinned) {
           return;
         }
         hideTimer = setTimeout(function () {
@@ -343,11 +675,6 @@
           }
           hidePanel();
         }, HIDE_DELAY_MS);
-      }
-
-      function shouldPauseAutoHide() {
-        var active = document.activeElement;
-        return panel.matches(":hover") || (active && controls.contains(active));
       }
 
       function setCustomVisible(visible, focusInput) {
@@ -364,7 +691,21 @@
         }
       }
 
+      function setHelpVisible(visible) {
+        helpVisible = visible;
+        helpCard.classList.toggle("open", visible);
+        helpCard.setAttribute("aria-hidden", String(!visible));
+        helpGhost.classList.toggle("active", visible);
+      }
+
+      function updatePinUi() {
+        pinToggle.classList.toggle("active", controlsPinned);
+        pinToggle.setAttribute("aria-pressed", controlsPinned ? "true" : "false");
+        pinToggle.textContent = controlsPinned ? "Pinned" : "Pin controls";
+      }
+
       function showPanel(focusInput) {
+        hideHint();
         if (!panelVisible) {
           panelVisible = true;
           controls.classList.add("visible");
@@ -382,6 +723,15 @@
         controls.classList.remove("visible");
         controls.setAttribute("aria-hidden", "true");
         setCustomVisible(false, false);
+      }
+
+      function finalizeColorSelection() {
+        if (controlsPinned) {
+          setCustomVisible(false, false);
+          resetHideTimer();
+          return;
+        }
+        hidePanel();
       }
 
       function showError(message) {
@@ -402,11 +752,13 @@
           resetHideTimer();
           return;
         }
+
         if (window.CSS && CSS.supports && CSS.supports("color", value)) {
-          setColor(value);
-          hidePanel();
+          setColor(value, "custom");
+          finalizeColorSelection();
           return;
         }
+
         showError("Invalid color");
         setCustomVisible(true, true);
         resetHideTimer();
@@ -426,8 +778,8 @@
       presetButtons.forEach(function (button) {
         button.addEventListener("click", function (event) {
           event.stopPropagation();
-          setColor(button.getAttribute("data-color"));
-          hidePanel();
+          setColor(button.getAttribute("data-color"), button.getAttribute("data-color"));
+          finalizeColorSelection();
         });
       });
 
@@ -444,11 +796,6 @@
       });
 
       input.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-          event.preventDefault();
-          tryApplyCustomColor();
-          return;
-        }
         if (event.key === "Escape") {
           event.preventDefault();
           hidePanel();
@@ -462,11 +809,7 @@
         resetHideTimer();
       });
 
-      controls.addEventListener("pointerdown", function (event) {
-        if (event.target === controls) {
-          resetHideTimer();
-          return;
-        }
+      controls.addEventListener("focusin", function () {
         resetHideTimer();
       });
 
@@ -483,32 +826,92 @@
         resetHideTimer();
       });
 
+      helpGhost.addEventListener("pointerdown", function (event) {
+        event.stopPropagation();
+      });
+
+      helpCard.addEventListener("pointerdown", function (event) {
+        event.stopPropagation();
+      });
+
+      helpGhost.addEventListener("click", function () {
+        hideHint();
+        setHelpVisible(!helpVisible);
+      });
+
+      pinToggle.addEventListener("click", function () {
+        controlsPinned = !controlsPinned;
+        updatePinUi();
+        if (controlsPinned) {
+          showPanel(false);
+        } else {
+          resetHideTimer();
+        }
+      });
+
       document.addEventListener("pointerdown", function (event) {
+        hideHint();
+        if (helpVisible && !helpCard.contains(event.target) && event.target !== helpGhost) {
+          setHelpVisible(false);
+        }
+        if (helpCard.contains(event.target) || event.target === helpGhost) {
+          return;
+        }
         if (panel.contains(event.target)) {
           return;
         }
         showPanel(false);
       });
 
+      document.addEventListener("pointermove", function (event) {
+        if (!hoverHintsEnabled || hintShownFromHover || panelVisible || helpVisible) {
+          return;
+        }
+        if (event.pointerType && event.pointerType !== "mouse") {
+          return;
+        }
+        hintShownFromHover = true;
+        showHint();
+      });
+
       document.addEventListener("keydown", function (event) {
         var key = event.key;
+        hideHint();
+
         if (key === "Escape") {
+          if (helpVisible) {
+            setHelpVisible(false);
+            return;
+          }
           hidePanel();
           return;
         }
+
+        if (key === "?" || (key === "/" && event.shiftKey)) {
+          event.preventDefault();
+          setHelpVisible(!helpVisible);
+          return;
+        }
+
         if (key === "b" || key === "B") {
-          setColor("black");
-          hidePanel();
+          setColor("black", "black");
+          if (panelVisible) {
+            finalizeColorSelection();
+          }
           return;
         }
         if (key === "w" || key === "W") {
-          setColor("white");
-          hidePanel();
+          setColor("white", "white");
+          if (panelVisible) {
+            finalizeColorSelection();
+          }
           return;
         }
         if (key === "r" || key === "R") {
-          setColor("red");
-          hidePanel();
+          setColor("red", "red");
+          if (panelVisible) {
+            finalizeColorSelection();
+          }
           return;
         }
         if (key === "c" || key === "C") {
@@ -535,7 +938,8 @@
         }
       });
 
-      setColor(currentColor);
+      updatePinUi();
+      setColor(currentColor, "black");
     })();
   </script>
 </body>
