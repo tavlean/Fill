@@ -21,8 +21,6 @@
       --input-border: rgba(255, 255, 255, 0.16);
       --input-text: rgba(248, 252, 255, 0.95);
       --input-placeholder: rgba(223, 238, 250, 0.58);
-      --help-kbd-bg: rgba(255, 255, 255, 0.15);
-      --help-kbd-border: rgba(255, 255, 255, 0.18);
       --custom-preview: linear-gradient(150deg, #8b5cf6, #3b82f6 50%, #22d3ee);
     }
 
@@ -41,8 +39,6 @@
       --input-border: rgba(18, 22, 28, 0.16);
       --input-text: rgba(18, 23, 30, 0.95);
       --input-placeholder: rgba(34, 41, 52, 0.54);
-      --help-kbd-bg: rgba(0, 0, 0, 0.08);
-      --help-kbd-border: rgba(0, 0, 0, 0.12);
     }
 
     html,
@@ -297,14 +293,15 @@
       right: 14px;
       bottom: 14px;
       z-index: 22;
-      height: 32px;
-      padding: 0 10px;
+      width: 38px;
+      height: 38px;
+      padding: 0;
       border: 1px solid var(--ui-hairline);
-      border-radius: 999px;
+      border-radius: 12px;
       background: linear-gradient(130deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.04));
       color: var(--ui-muted);
-      font-size: 12px;
-      letter-spacing: 0.02em;
+      font-size: 18px;
+      line-height: 1;
       cursor: pointer;
       opacity: 0.48;
       backdrop-filter: blur(12px) saturate(150%);
@@ -326,16 +323,16 @@
       right: 14px;
       bottom: 56px;
       z-index: 21;
-      width: min(92vw, 330px);
-      padding: 12px;
-      border-radius: 16px;
+      width: min(92vw, 360px);
+      padding: 16px 16px 14px;
+      border-radius: 18px;
       border: 1px solid var(--ui-hairline);
-      background: linear-gradient(126deg, rgba(255, 255, 255, 0.24), rgba(138, 152, 162, 0.2));
+      background: linear-gradient(126deg, rgba(255, 255, 255, 0.16), rgba(138, 152, 162, 0.12));
       box-shadow:
-        0 16px 34px var(--ui-shadow),
-        inset 0 1px 0 rgba(255, 255, 255, 0.33);
-      backdrop-filter: blur(22px) saturate(160%);
-      -webkit-backdrop-filter: blur(22px) saturate(160%);
+        0 16px 30px rgba(0, 0, 0, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(18px) saturate(145%);
+      -webkit-backdrop-filter: blur(18px) saturate(145%);
       color: var(--ui-ink);
       opacity: 0;
       transform: translateY(8px) scale(0.98);
@@ -360,31 +357,41 @@
 
     .keys {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px 14px;
-      margin-bottom: 10px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      justify-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
     }
 
     .shortcut {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      color: var(--ui-muted);
-      font-size: 12px;
-      letter-spacing: 0.01em;
+      width: 92px;
+      min-height: 92px;
+      padding: 12px 8px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      row-gap: 7px;
+      box-sizing: border-box;
     }
 
-    .shortcut kbd {
-      display: inline-block;
-      min-width: 18px;
-      padding: 2px 6px;
-      border-radius: 6px;
-      border: 1px solid var(--help-kbd-border);
-      background: var(--help-kbd-bg);
+    .shortcut-key {
       color: var(--ui-ink);
-      font-size: 11px;
+      font-size: 17px;
+      font-weight: 600;
       line-height: 1;
-      font-family: inherit;
+      letter-spacing: 0.01em;
+      text-align: center;
+    }
+
+    .shortcut-label {
+      color: var(--ui-muted);
+      font-size: 11px;
+      line-height: 1.15;
+      letter-spacing: 0.01em;
+      text-align: center;
     }
 
     .pin-btn {
@@ -506,6 +513,16 @@
       .help-card {
         right: 10px;
         bottom: 50px;
+        width: min(94vw, 350px);
+      }
+
+      .keys {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .shortcut {
+        width: 100%;
+        min-height: 84px;
       }
 
       .help-ghost {
@@ -541,16 +558,16 @@
     </div>
   </div>
 
-  <button id="helpGhost" class="help-ghost" type="button" aria-label="Show tips and shortcuts">? tips</button>
+  <button id="helpGhost" class="help-ghost" type="button" aria-label="Show shortcuts">?</button>
 
   <div id="helpCard" class="help-card" role="dialog" aria-hidden="true" aria-label="Shortcuts and options">
     <div class="keys">
-      <div class="shortcut"><kbd>B</kbd><span>Black</span></div>
-      <div class="shortcut"><kbd>W</kbd><span>White</span></div>
-      <div class="shortcut"><kbd>R</kbd><span>Red</span></div>
-      <div class="shortcut"><kbd>C</kbd><span>Custom</span></div>
-      <div class="shortcut"><kbd>F</kbd><span>Fullscreen</span></div>
-      <div class="shortcut"><kbd>Esc</kbd><span>Hide</span></div>
+      <div class="shortcut"><span class="shortcut-key">B</span><span class="shortcut-label">Black</span></div>
+      <div class="shortcut"><span class="shortcut-key">W</span><span class="shortcut-label">White</span></div>
+      <div class="shortcut"><span class="shortcut-key">R</span><span class="shortcut-label">Red</span></div>
+      <div class="shortcut"><span class="shortcut-key">C</span><span class="shortcut-label">Custom</span></div>
+      <div class="shortcut"><span class="shortcut-key">F</span><span class="shortcut-label">Fullscreen</span></div>
+      <div class="shortcut"><span class="shortcut-key">Esc</span><span class="shortcut-label">Hide</span></div>
     </div>
     <button id="pinToggle" class="pin-btn" type="button" aria-pressed="false">Pin controls</button>
   </div>
@@ -876,6 +893,8 @@
 
       document.addEventListener("keydown", function (event) {
         var key = event.key;
+        var active = document.activeElement;
+        var typingInCustom = !!(active && customForm.contains(active));
         hideHint();
 
         if (key === "Escape") {
@@ -884,6 +903,10 @@
             return;
           }
           hidePanel();
+          return;
+        }
+
+        if (typingInCustom) {
           return;
         }
 
