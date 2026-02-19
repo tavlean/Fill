@@ -337,8 +337,17 @@
           return;
         }
         hideTimer = setTimeout(function () {
+          if (shouldPauseAutoHide()) {
+            resetHideTimer();
+            return;
+          }
           hidePanel();
         }, HIDE_DELAY_MS);
+      }
+
+      function shouldPauseAutoHide() {
+        var active = document.activeElement;
+        return panel.matches(":hover") || (active && controls.contains(active));
       }
 
       function setCustomVisible(visible, focusInput) {
@@ -463,6 +472,14 @@
 
       panel.addEventListener("pointerdown", function (event) {
         event.stopPropagation();
+        resetHideTimer();
+      });
+
+      panel.addEventListener("pointermove", function () {
+        resetHideTimer();
+      });
+
+      panel.addEventListener("pointerleave", function () {
         resetHideTimer();
       });
 
