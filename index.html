@@ -6,7 +6,7 @@
   <title>Screen Color Fill</title>
   <style>
     :root {
-      color-scheme: light dark;
+      color-scheme: dark;
     }
 
     html,
@@ -21,7 +21,7 @@
       min-height: 100vh;
       min-height: 100dvh;
       background: black;
-      transition: background-color 140ms linear;
+      transition: background-color 170ms linear;
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       user-select: none;
       -webkit-user-select: none;
@@ -32,11 +32,14 @@
       position: fixed;
       inset: 0;
       display: grid;
-      place-items: center;
+      place-items: end center;
+      padding: clamp(14px, 4vh, 38px);
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
-      transition: opacity 200ms ease, visibility 200ms ease;
+      transition:
+        opacity 460ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 460ms;
       z-index: 10;
     }
 
@@ -44,88 +47,258 @@
       opacity: 1;
       visibility: visible;
       pointer-events: auto;
+      transition:
+        opacity 460ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 0s;
     }
 
-    .panel {
-      width: min(92vw, 460px);
-      padding: 12px;
-      border-radius: 12px;
-      background: rgba(20, 20, 20, 0.82);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      box-shadow: 0 10px 36px rgba(0, 0, 0, 0.45);
-    }
-
-    .presets {
+    .dock-wrap {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
-      margin-bottom: 8px;
+      justify-items: center;
+      gap: 12px;
+      transform: translateY(18px) scale(0.97);
+      filter: blur(8px);
+      transition:
+        transform 560ms cubic-bezier(0.22, 1, 0.36, 1),
+        filter 560ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    button,
-    input {
+    #controls.visible .dock-wrap {
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+
+    .dock {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      background:
+        linear-gradient(128deg, rgba(224, 235, 233, 0.28), rgba(146, 158, 161, 0.22));
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.34),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(22px) saturate(170%);
+      -webkit-backdrop-filter: blur(22px) saturate(170%);
+    }
+
+    .swatch {
+      position: relative;
+      width: 64px;
+      height: 64px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 20px;
+      padding: 0;
+      cursor: pointer;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -14px 24px rgba(0, 0, 0, 0.22),
+        0 9px 16px rgba(0, 0, 0, 0.28);
+      transition:
+        transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 300ms ease;
+    }
+
+    .swatch::after {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 48%);
+      pointer-events: none;
+    }
+
+    .swatch-black {
+      background: linear-gradient(150deg, #272727, #060606 58%, #000000);
+    }
+
+    .swatch-white {
+      background: linear-gradient(150deg, #ffffff, #ececec 58%, #d8d8d8);
+    }
+
+    .swatch-red {
+      background: linear-gradient(150deg, #ff6d6d, #db1f1f 58%, #8e0909);
+    }
+
+    .swatch-custom {
+      background: linear-gradient(150deg, #8b5cf6, #3b82f6 50%, #22d3ee);
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 34px;
+      line-height: 1;
+      font-weight: 300;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
+
+    .swatch-custom span {
+      display: inline-block;
+      transform: translateY(-2px);
+    }
+
+    .swatch:focus-visible,
+    .custom-form input:focus-visible,
+    .apply-btn:focus-visible {
+      outline: 2px solid #7bc6ff;
+      outline-offset: 2px;
+    }
+
+    .custom-form {
+      width: min(92vw, 560px);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 16px;
+      background: rgba(40, 48, 52, 0.58);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow:
+        0 14px 28px rgba(0, 0, 0, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.26);
+      backdrop-filter: blur(16px) saturate(150%);
+      -webkit-backdrop-filter: blur(16px) saturate(150%);
+      opacity: 0;
+      transform: translateY(-10px) scale(0.98);
+      pointer-events: none;
+      visibility: hidden;
+      transition:
+        opacity 280ms ease,
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 280ms;
+    }
+
+    .custom-form.open {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+      visibility: visible;
+      transition:
+        opacity 280ms ease,
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 0s;
+    }
+
+    .custom-form input,
+    .apply-btn {
       border: 0;
-      border-radius: 8px;
-      font-size: 14px;
+      border-radius: 11px;
       padding: 10px 12px;
       box-sizing: border-box;
+      font-size: 14px;
       outline: none;
     }
 
-    button {
-      cursor: pointer;
-      font-weight: 600;
+    .custom-form input {
+      min-width: 0;
       background: rgba(255, 255, 255, 0.92);
       color: #111;
     }
 
-    button:focus-visible,
-    input:focus-visible {
-      outline: 2px solid #4da3ff;
-      outline-offset: 1px;
-    }
-
-    .custom {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 8px;
-    }
-
-    input {
-      background: rgba(255, 255, 255, 0.96);
-      color: #111;
-      min-width: 0;
+    .apply-btn {
+      cursor: pointer;
+      color: #eaf5ff;
+      font-weight: 600;
+      background: linear-gradient(145deg, #2364ff, #1440aa);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.24),
+        0 6px 10px rgba(3, 18, 59, 0.4);
     }
 
     #error {
-      margin-top: 6px;
       min-height: 16px;
       font-size: 12px;
       line-height: 1.2;
-      color: #ffb4b4;
+      color: #ffd3d3;
+      letter-spacing: 0.01em;
       text-align: center;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
       opacity: 0;
-      transition: opacity 120ms ease;
+      transition: opacity 160ms ease;
     }
 
     #error.visible {
       opacity: 1;
     }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .swatch:hover {
+        transform: translateY(-5px) scale(1.04);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.22),
+          inset 0 -10px 20px rgba(0, 0, 0, 0.18),
+          0 16px 26px rgba(0, 0, 0, 0.34);
+        border-color: rgba(255, 255, 255, 0.4);
+      }
+
+      .apply-btn:hover {
+        filter: brightness(1.08);
+      }
+    }
+
+    .swatch:active {
+      transform: translateY(-1px) scale(1.01);
+    }
+
+    .apply-btn:active {
+      transform: translateY(1px);
+    }
+
+    @media (max-width: 540px) {
+      .dock {
+        gap: 10px;
+        padding: 10px 11px;
+      }
+
+      .swatch {
+        width: 56px;
+        height: 56px;
+        border-radius: 18px;
+      }
+
+      .swatch::after {
+        border-radius: 16px;
+      }
+
+      .custom-form input,
+      .apply-btn {
+        font-size: 16px;
+      }
+    }
   </style>
 </head>
 <body>
   <div id="controls" aria-hidden="true">
-    <div class="panel" role="dialog" aria-label="Color controls">
-      <div class="presets">
-        <button type="button" data-color="black">Black</button>
-        <button type="button" data-color="white">White</button>
-        <button type="button" data-color="red">Red</button>
+    <div class="dock-wrap" role="dialog" aria-label="Color controls">
+      <div class="dock">
+        <button class="swatch swatch-black" type="button" data-color="black" aria-label="Black">
+          <span class="visually-hidden">Black</span>
+        </button>
+        <button class="swatch swatch-white" type="button" data-color="white" aria-label="White">
+          <span class="visually-hidden">White</span>
+        </button>
+        <button class="swatch swatch-red" type="button" data-color="red" aria-label="Red">
+          <span class="visually-hidden">Red</span>
+        </button>
+        <button class="swatch swatch-custom" id="customToggle" type="button" aria-label="Custom color">
+          <span>+</span>
+        </button>
       </div>
-      <div class="custom">
+      <form id="customForm" class="custom-form" novalidate>
         <input id="colorInput" type="text" autocomplete="off" spellcheck="false" placeholder="Enter color (e.g. #0f0, rgb(...), hsl(...), red)">
-        <button id="applyBtn" type="button">Apply</button>
-      </div>
+        <button id="applyBtn" class="apply-btn" type="submit">Apply</button>
+      </form>
       <div id="error" aria-live="polite"></div>
     </div>
   </div>
@@ -133,14 +306,16 @@
   <script>
     (function () {
       var controls = document.getElementById("controls");
-      var panel = controls.querySelector(".panel");
+      var panel = controls.querySelector(".dock-wrap");
+      var customForm = document.getElementById("customForm");
+      var customToggle = document.getElementById("customToggle");
       var input = document.getElementById("colorInput");
-      var applyBtn = document.getElementById("applyBtn");
       var errorEl = document.getElementById("error");
       var presetButtons = controls.querySelectorAll("[data-color]");
 
       var currentColor = "black";
       var panelVisible = false;
+      var customVisible = false;
       var hideTimer = null;
       var errorTimer = null;
       var HIDE_DELAY_MS = 3000;
@@ -148,6 +323,12 @@
       function setColor(color) {
         currentColor = color;
         document.body.style.backgroundColor = color;
+      }
+
+      function clearError() {
+        clearTimeout(errorTimer);
+        errorEl.classList.remove("visible");
+        errorEl.textContent = "";
       }
 
       function resetHideTimer() {
@@ -160,17 +341,30 @@
         }, HIDE_DELAY_MS);
       }
 
+      function setCustomVisible(visible, focusInput) {
+        customVisible = visible;
+        customForm.classList.toggle("open", visible);
+        if (!visible) {
+          input.blur();
+          clearError();
+          return;
+        }
+        if (focusInput) {
+          input.focus();
+          input.select();
+        }
+      }
+
       function showPanel(focusInput) {
         if (!panelVisible) {
           panelVisible = true;
           controls.classList.add("visible");
           controls.setAttribute("aria-hidden", "false");
         }
-        resetHideTimer();
         if (focusInput) {
-          input.focus();
-          input.select();
+          setCustomVisible(true, true);
         }
+        resetHideTimer();
       }
 
       function hidePanel() {
@@ -178,6 +372,7 @@
         panelVisible = false;
         controls.classList.remove("visible");
         controls.setAttribute("aria-hidden", "true");
+        setCustomVisible(false, false);
       }
 
       function showError(message) {
@@ -194,6 +389,7 @@
         var value = input.value.trim();
         if (!value) {
           showError("Invalid color");
+          setCustomVisible(true, true);
           resetHideTimer();
           return;
         }
@@ -203,6 +399,7 @@
           return;
         }
         showError("Invalid color");
+        setCustomVisible(true, true);
         resetHideTimer();
       }
 
@@ -225,8 +422,15 @@
         });
       });
 
-      applyBtn.addEventListener("click", function (event) {
+      customToggle.addEventListener("click", function (event) {
         event.stopPropagation();
+        showPanel(false);
+        setCustomVisible(!customVisible, !customVisible);
+        resetHideTimer();
+      });
+
+      customForm.addEventListener("submit", function (event) {
+        event.preventDefault();
         tryApplyCustomColor();
       });
 
@@ -244,7 +448,10 @@
         resetHideTimer();
       });
 
-      input.addEventListener("input", resetHideTimer);
+      input.addEventListener("input", function () {
+        clearError();
+        resetHideTimer();
+      });
 
       controls.addEventListener("pointerdown", function (event) {
         if (event.target === controls) {
