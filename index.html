@@ -602,13 +602,25 @@
 
   <div id="helpCard" class="help-card" role="dialog" aria-hidden="true" aria-label="Shortcuts and options">
     <div class="keys">
-      <div class="shortcut"><span class="shortcut-label">Black</span><span class="shortcut-key">B</span></div>
-      <div class="shortcut"><span class="shortcut-label">White</span><span class="shortcut-key">W</span></div>
-      <div class="shortcut"><span class="shortcut-label">Red</span><span class="shortcut-key">R</span></div>
-      <div class="shortcut"><span class="shortcut-label">Custom</span><span class="shortcut-key">C</span></div>
-      <div class="shortcut"><span class="shortcut-label">Fullscreen</span><span class="shortcut-key">F</span></div>
-      <div class="shortcut"><span class="shortcut-label">Hide</span><span class="shortcut-key">Esc</span></div>
-      <button id="pinToggle" class="shortcut shortcut-action" type="button" aria-pressed="false">
+      <button class="shortcut shortcut-action" type="button" data-shortcut-action="black">
+        <span class="shortcut-label">Black</span><span class="shortcut-key">B</span>
+      </button>
+      <button class="shortcut shortcut-action" type="button" data-shortcut-action="white">
+        <span class="shortcut-label">White</span><span class="shortcut-key">W</span>
+      </button>
+      <button class="shortcut shortcut-action" type="button" data-shortcut-action="red">
+        <span class="shortcut-label">Red</span><span class="shortcut-key">R</span>
+      </button>
+      <button class="shortcut shortcut-action" type="button" data-shortcut-action="custom">
+        <span class="shortcut-label">Custom</span><span class="shortcut-key">C</span>
+      </button>
+      <button class="shortcut shortcut-action" type="button" data-shortcut-action="fullscreen">
+        <span class="shortcut-label">Fullscreen</span><span class="shortcut-key">F</span>
+      </button>
+      <button class="shortcut shortcut-action" type="button" data-shortcut-action="hide">
+        <span class="shortcut-label">Hide</span><span class="shortcut-key">Esc</span>
+      </button>
+      <button id="pinToggle" class="shortcut shortcut-action" type="button" data-shortcut-action="pin" aria-pressed="false">
         <span id="pinLabel" class="shortcut-label">Pin controls</span>
         <span class="shortcut-key">P</span>
       </button>
@@ -848,6 +860,53 @@
         }
       }
 
+      function applyPresetShortcut(color) {
+        setColor(color, color);
+        if (panelVisible) {
+          finalizeColorSelection();
+        }
+      }
+
+      function togglePinShortcut() {
+        controlsPinned = !controlsPinned;
+        updatePinUi();
+        if (controlsPinned) {
+          showPanel(false);
+        } else {
+          resetHideTimer();
+        }
+      }
+
+      function hideShortcut(closeHelpFirst) {
+        if (closeHelpFirst && helpVisible) {
+          setHelpVisible(false);
+          return;
+        }
+        hidePanel();
+      }
+
+      function runShortcutAction(action) {
+        if (action === "black" || action === "white" || action === "red") {
+          applyPresetShortcut(action);
+          return;
+        }
+        if (action === "custom") {
+          showPanel(true);
+          return;
+        }
+        if (action === "fullscreen") {
+          toggleFullscreen();
+          return;
+        }
+        if (action === "hide") {
+          hideShortcut(true);
+          return;
+        }
+        if (action === "pin") {
+          togglePinShortcut();
+        }
+      }
+
       presetButtons.forEach(function (button) {
         button.addEventListener("click", function (event) {
           event.stopPropagation();
@@ -912,14 +971,17 @@
         setHelpVisible(!helpVisible);
       });
 
-      pinToggle.addEventListener("click", function () {
-        controlsPinned = !controlsPinned;
-        updatePinUi();
-        if (controlsPinned) {
-          showPanel(false);
-        } else {
-          resetHideTimer();
+      helpCard.addEventListener("click", function (event) {
+        var actionButton = event.target.closest("[data-shortcut-action]");
+        if (!actionButton || !helpCard.contains(actionButton)) {
+          return;
         }
+        var action = actionButton.getAttribute("data-shortcut-action");
+        if (action === "hide") {
+          hideShortcut(false);
+          return;
+        }
+        runShortcutAction(action);
       });
 
       document.addEventListener("pointerdown", function (event) {
@@ -961,11 +1023,7 @@
         hideHint();
 
         if (key === "Escape") {
-          if (helpVisible) {
-            setHelpVisible(false);
-            return;
-          }
-          hidePanel();
+          runShortcutAction("hide");
           return;
         }
 
@@ -980,45 +1038,30 @@
         }
 
         if (key === "b" || key === "B") {
-          setColor("black", "black");
-          if (panelVisible) {
-            finalizeColorSelection();
-          }
+          runShortcutAction("black");
           return;
         }
         if (key === "w" || key === "W") {
-          setColor("white", "white");
-          if (panelVisible) {
-            finalizeColorSelection();
-          }
+          runShortcutAction("white");
           return;
         }
         if (key === "r" || key === "R") {
-          setColor("red", "red");
-          if (panelVisible) {
-            finalizeColorSelection();
-          }
+          runShortcutAction("red");
           return;
         }
         if (key === "c" || key === "C") {
           event.preventDefault();
-          showPanel(true);
+          runShortcutAction("custom");
           return;
         }
         if (key === "f" || key === "F") {
           event.preventDefault();
-          toggleFullscreen();
+          runShortcutAction("fullscreen");
           return;
         }
         if (key === "p" || key === "P") {
           event.preventDefault();
-          controlsPinned = !controlsPinned;
-          updatePinUi();
-          if (controlsPinned) {
-            showPanel(false);
-          } else {
-            resetHideTimer();
-          }
+          runShortcutAction("pin");
           return;
         }
         if (
