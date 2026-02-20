@@ -33,60 +33,68 @@
     :root {
       color-scheme: dark;
       --ui-ink: #FFFFFF;
-      --ui-muted: rgba(255, 255, 255, 0.6);
-      --ui-hairline: rgba(255, 255, 255, 0.1);
-      --ui-glass-a: rgba(0, 0, 0, 0.3);
-      --ui-glass-b: rgba(0, 0, 0, 0.3);
-      --ui-shadow: rgba(0, 0, 0, 0.3);
-      --ui-ring: #0066FF;
-      --form-bg: rgba(0, 0, 0, 0.4);
-      --form-border: rgba(255, 255, 255, 0.1);
-      --input-bg: rgba(0, 0, 0, 0.2);
-      --input-border: rgba(255, 255, 255, 0.1);
+      --ui-muted: hsla(0, 0%, 100%, 0.6);
+      --ui-hairline: hsla(0, 0%, 100%, 0.1);
+      --ui-glass-a: hsla(0, 0%, 100%, 0.08);
+      --ui-glass-b: hsla(0, 0%, 100%, 0.08);
+      --ui-shadow: hsla(0, 0%, 0%, 0.5);
+      --ui-ring: hsla(0, 0%, 100%, 0.9);
+      --ui-ring-text: hsla(0, 0%, 0%, 1);
+      --form-bg: hsla(0, 0%, 100%, 0.08);
+      --form-border: hsla(0, 0%, 100%, 0.1);
+      --input-bg: hsla(0, 0%, 0%, 0.2);
+      --input-border: hsla(0, 0%, 100%, 0.1);
       --input-text: #FFFFFF;
-      --input-placeholder: rgba(255, 255, 255, 0.4);
-      --custom-preview: rgba(0, 0, 0, 0.2);
+      --input-placeholder: hsla(0, 0%, 100%, 0.4);
+      --custom-preview: hsla(0, 0%, 0%, 0.2);
       --assist-fg: #FFFFFF;
-      --assist-muted: rgba(255, 255, 255, 0.6);
-      --assist-bg: rgba(0, 0, 0, 0.4);
-      --assist-bg-strong: rgba(0, 0, 0, 0.5);
-      --assist-border: rgba(255, 255, 255, 0.1);
-      --assist-card-bg: rgba(0, 0, 0, 0.25);
-      --assist-card-border: rgba(255, 255, 255, 0.15);
-      --assist-ghost-border: rgba(255, 255, 255, 0.2);
-      --assist-key-bg: rgba(255, 255, 255, 0.15);
-      --assist-key-border: rgba(255, 255, 255, 0.1);
-      --assist-shadow: rgba(0, 0, 0, 0.3);
+      --assist-muted: hsla(0, 0%, 100%, 0.6);
+      --assist-bg: hsla(0, 0%, 100%, 0.08);
+      --assist-bg-strong: hsla(0, 0%, 100%, 0.12);
+      --assist-border: hsla(0, 0%, 100%, 0.1);
+      --assist-card-bg: hsla(0, 0%, 100%, 0.1);
+      --assist-card-border: hsla(0, 0%, 100%, 0.1);
+      --assist-ghost-border: hsla(0, 0%, 100%, 0.15);
+      --assist-key-bg: hsla(0, 0%, 100%, 0.12);
+      --assist-key-border: hsla(0, 0%, 100%, 0.1);
+      --assist-shadow: hsla(0, 0%, 0%, 0.3);
+      --toast-bg: hsla(0, 0%, 9%, 0.7);
+      --toast-border: hsla(0, 0%, 100%, 0.08);
+      --toast-fg: hsla(0, 0%, 100%, 0.75);
       --dock-radius: 14px;
       --swatch-radius: 8px;
     }
 
     body.ui-light {
       --ui-ink: #111827;
-      --ui-muted: rgba(0, 0, 0, 0.6);
-      --ui-hairline: rgba(0, 0, 0, 0.1);
-      --ui-glass-a: rgba(255, 255, 255, 0.4);
-      --ui-glass-b: rgba(255, 255, 255, 0.4);
-      --ui-shadow: rgba(0, 0, 0, 0.15);
-      --ui-ring: #0066FF;
-      --form-bg: rgba(255, 255, 255, 0.5);
-      --form-border: rgba(0, 0, 0, 0.15);
-      --input-bg: rgba(0, 0, 0, 0.05);
-      --input-border: rgba(0, 0, 0, 0.1);
+      --ui-muted: hsla(0, 0%, 0%, 0.6);
+      --ui-hairline: hsla(0, 0%, 0%, 0.1);
+      --ui-glass-a: hsla(0, 0%, 100%, 0.5);
+      --ui-glass-b: hsla(0, 0%, 100%, 0.5);
+      --ui-shadow: hsla(0, 0%, 0%, 0.15);
+      --ui-ring: hsla(0, 0%, 0%, 0.9);
+      --ui-ring-text: hsla(0, 0%, 100%, 1);
+      --form-bg: hsla(0, 0%, 100%, 0.4);
+      --form-border: hsla(0, 0%, 0%, 0.15);
+      --input-bg: hsla(0, 0%, 0%, 0.05);
+      --input-border: hsla(0, 0%, 0%, 0.1);
       --input-text: #111827;
-      --input-placeholder: rgba(0, 0, 0, 0.4);
-      --custom-preview: rgba(0, 0, 0, 0.03);
+      --input-placeholder: hsla(0, 0%, 0%, 0.4);
+      --custom-preview: hsla(0, 0%, 0%, 0.03);
       --assist-fg: #111827;
-      --assist-muted: rgba(0, 0, 0, 0.6);
-      --assist-bg: rgba(255, 255, 255, 0.4);
-      --assist-bg-strong: rgba(255, 255, 255, 0.5);
-      --assist-border: rgba(0, 0, 0, 0.1);
-      --assist-card-bg: rgba(255, 255, 255, 0.35);
-      --assist-card-border: rgba(0, 0, 0, 0.15);
-      --assist-ghost-border: rgba(0, 0, 0, 0.2);
-      --assist-key-bg: rgba(0, 0, 0, 0.1);
-      --assist-key-border: rgba(0, 0, 0, 0.1);
-      --assist-shadow: rgba(0, 0, 0, 0.15);
+      --assist-muted: hsla(0, 0%, 0%, 0.6);
+      --assist-bg: hsla(0, 0%, 100%, 0.3);
+      --assist-bg-strong: hsla(0, 0%, 100%, 0.4);
+      --assist-border: hsla(0, 0%, 0%, 0.1);
+      --assist-card-bg: hsla(0, 0%, 100%, 0.25);
+      --assist-card-border: hsla(0, 0%, 0%, 0.15);
+      --assist-ghost-border: hsla(0, 0%, 0%, 0.15);
+      --assist-key-bg: hsla(0, 0%, 0%, 0.08);
+      --assist-key-border: hsla(0, 0%, 0%, 0.08);
+      --assist-shadow: hsla(0, 0%, 0%, 0.15);
+      --toast-bg: hsla(0, 0%, 100%, 0.85);
+      --toast-border: hsla(0, 0%, 0%, 0.1);
+      --toast-fg: hsla(0, 0%, 0%, 0.75);
     }
 
     html, body {
@@ -158,18 +166,18 @@
       position: relative;
       width: 44px;
       height: 44px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid hsla(0, 0%, 100%, 0.1);
       border-radius: var(--swatch-radius);
       padding: 0;
       cursor: pointer;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, 0.1);
       transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
       background-clip: padding-box;
     }
 
     body.ui-light .swatch {
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      border: 1px solid hsla(0, 0%, 0%, 0.1);
+      box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, 0.5);
     }
 
     .swatch.is-active {
@@ -182,7 +190,7 @@
     .swatch-red { background-color: #FF3B30; }
 
     .swatch-custom {
-      background: rgba(255, 255, 255, 0.05);
+      background: hsla(0, 0%, 100%, 0.05);
       color: var(--ui-ink);
       font-size: 20px;
       line-height: 1;
@@ -193,7 +201,7 @@
     }
     
     body.ui-light .swatch-custom {
-      background: rgba(0, 0, 0, 0.05);
+      background: hsla(0, 0%, 0%, 0.05);
     }
 
     .swatch-custom span {
@@ -267,11 +275,11 @@
     }
     
     .custom-form input:focus {
-      border-color: rgba(255, 255, 255, 0.3);
+      border-color: hsla(0, 0%, 100%, 0.3);
     }
     
     body.ui-light .custom-form input:focus {
-      border-color: rgba(0, 0, 0, 0.3);
+      border-color: hsla(0, 0%, 0%, 0.3);
     }
 
     .custom-form input::placeholder {
@@ -285,7 +293,7 @@
       display: grid;
       place-items: center;
       cursor: pointer;
-      color: #fff;
+      color: var(--ui-ring-text);
       font-size: 14px;
       font-weight: 500;
       background: var(--ui-ring);
@@ -436,11 +444,11 @@
       justify-content: center;
       font-size: 12px;
       font-weight: 600;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.1);
     }
     
     body.ui-light .shortcut-key {
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.05);
     }
 
     .shortcut-action {
@@ -450,7 +458,7 @@
     }
 
     .shortcut-action.active {
-      background: rgba(10, 102, 194, 0.1);
+      background: var(--assist-key-bg);
     }
 
     .shortcut-action.active .shortcut-key {
@@ -466,9 +474,9 @@
       z-index: 9;
       padding: 10px 24px;
       border-radius: 999px;
-      border: 1px solid var(--ui-hairline);
-      background: var(--ui-glass-a);
-      color: var(--assist-fg);
+      border: 1px solid var(--toast-border);
+      background: var(--toast-bg);
+      color: var(--toast-fg);
       font-size: 14px;
       font-weight: 500;
       backdrop-filter: blur(24px) saturate(180%);
