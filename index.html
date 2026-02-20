@@ -209,7 +209,8 @@
     .help-ghost:focus-visible,
     .shortcut-action:focus-visible {
       outline: 2px solid var(--ui-ring);
-      outline-offset: 2px;
+      outline-offset: 3px;
+      box-shadow: 0 0 0 5px rgba(8, 12, 20, 0.52);
     }
 
     .custom-form {
@@ -573,7 +574,7 @@
 <body>
   <div id="controls" aria-hidden="true">
     <div class="dock-wrap" role="dialog" aria-label="Color controls">
-      <div class="dock">
+      <div class="dock" role="group" aria-label="Color choices">
         <button class="swatch swatch-black" type="button" data-color="black" aria-label="Black">
           <span class="visually-hidden">Black</span>
         </button>
@@ -583,20 +584,21 @@
         <button class="swatch swatch-red" type="button" data-color="red" aria-label="Red">
           <span class="visually-hidden">Red</span>
         </button>
-        <button class="swatch swatch-custom" id="customToggle" type="button" aria-label="Custom color">
+        <button class="swatch swatch-custom" id="customToggle" type="button" aria-label="Custom color" aria-controls="customForm" aria-expanded="false">
           <span>+</span>
         </button>
       </div>
-      <form id="customForm" class="custom-form" novalidate>
+      <form id="customForm" class="custom-form" novalidate aria-hidden="true">
         <span id="colorDot" class="color-dot" aria-hidden="true"></span>
-        <input id="colorInput" type="text" autocomplete="off" spellcheck="false" placeholder="Any CSS color">
+        <label class="visually-hidden" for="colorInput">Custom color</label>
+        <input id="colorInput" type="text" autocomplete="off" spellcheck="false" placeholder="Any CSS color" aria-describedby="error">
         <button id="applyBtn" class="apply-btn" type="submit" aria-label="Apply color">></button>
       </form>
-      <div id="error" aria-live="polite"></div>
+      <div id="error" role="status" aria-live="polite"></div>
     </div>
   </div>
 
-  <button id="helpGhost" class="help-ghost" type="button" aria-label="Show shortcuts">?</button>
+  <button id="helpGhost" class="help-ghost" type="button" aria-label="Show shortcuts" aria-controls="helpCard" aria-expanded="false">?</button>
 
   <div id="helpCard" class="help-card" role="dialog" aria-hidden="true" aria-label="Shortcuts and options">
     <div class="keys">
@@ -670,9 +672,13 @@
 
       function setActiveSwatch(source) {
         presetButtons.forEach(function (button) {
-          button.classList.toggle("is-active", button.getAttribute("data-color") === source);
+          var isActive = button.getAttribute("data-color") === source;
+          button.classList.toggle("is-active", isActive);
+          button.setAttribute("aria-pressed", isActive ? "true" : "false");
         });
-        customToggle.classList.toggle("is-active", source === "custom");
+        var customActive = source === "custom";
+        customToggle.classList.toggle("is-active", customActive);
+        customToggle.setAttribute("aria-pressed", customActive ? "true" : "false");
       }
 
       function setColor(color, source) {
@@ -743,6 +749,8 @@
       function setCustomVisible(visible, focusInput) {
         customVisible = visible;
         customForm.classList.toggle("open", visible);
+        customForm.setAttribute("aria-hidden", String(!visible));
+        customToggle.setAttribute("aria-expanded", visible ? "true" : "false");
         if (!visible) {
           input.blur();
           clearError();
@@ -759,6 +767,8 @@
         helpCard.classList.toggle("open", visible);
         helpCard.setAttribute("aria-hidden", String(!visible));
         helpGhost.classList.toggle("active", visible);
+        helpGhost.setAttribute("aria-expanded", visible ? "true" : "false");
+        helpGhost.setAttribute("aria-label", visible ? "Hide shortcuts" : "Show shortcuts");
       }
 
       function updatePinUi() {
@@ -1027,6 +1037,8 @@
 
       updatePinUi();
       setColor(currentColor, "black");
+      setCustomVisible(false, false);
+      setHelpVisible(false);
     })();
   </script>
 </body>
