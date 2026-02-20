@@ -32,60 +32,60 @@
   <style>
     :root {
       color-scheme: dark;
-      --ui-ink: #EAEAEA;
-      --ui-muted: #8A8F98;
-      --ui-hairline: rgba(255, 255, 255, 0.08);
-      --ui-glass-a: rgba(23, 23, 23, 0.7);
-      --ui-glass-b: rgba(23, 23, 23, 0.7);
-      --ui-shadow: rgba(0, 0, 0, 0.5);
+      --ui-ink: #FFFFFF;
+      --ui-muted: rgba(255, 255, 255, 0.6);
+      --ui-hairline: rgba(255, 255, 255, 0.1);
+      --ui-glass-a: rgba(0, 0, 0, 0.3);
+      --ui-glass-b: rgba(0, 0, 0, 0.3);
+      --ui-shadow: rgba(0, 0, 0, 0.3);
       --ui-ring: #0066FF;
-      --form-bg: rgba(28, 28, 30, 0.85);
-      --form-border: rgba(255, 255, 255, 0.08);
-      --input-bg: rgba(0, 0, 0, 0.25);
+      --form-bg: rgba(0, 0, 0, 0.4);
+      --form-border: rgba(255, 255, 255, 0.1);
+      --input-bg: rgba(0, 0, 0, 0.2);
       --input-border: rgba(255, 255, 255, 0.1);
-      --input-text: #EAEAEA;
-      --input-placeholder: #8A8F98;
+      --input-text: #FFFFFF;
+      --input-placeholder: rgba(255, 255, 255, 0.4);
       --custom-preview: rgba(0, 0, 0, 0.2);
-      --assist-fg: #EAEAEA;
-      --assist-muted: #8A8F98;
-      --assist-bg: rgba(28, 28, 30, 0.85);
-      --assist-bg-strong: rgba(38, 38, 40, 0.95);
-      --assist-border: rgba(255, 255, 255, 0.08);
-      --assist-card-bg: rgba(23, 23, 23, 0.85);
-      --assist-card-border: rgba(255, 255, 255, 0.1);
-      --assist-ghost-border: rgba(255, 255, 255, 0.1);
-      --assist-key-bg: rgba(255, 255, 255, 0.08);
-      --assist-key-border: rgba(255, 255, 255, 0.04);
-      --assist-shadow: rgba(0, 0, 0, 0.5);
+      --assist-fg: #FFFFFF;
+      --assist-muted: rgba(255, 255, 255, 0.6);
+      --assist-bg: rgba(0, 0, 0, 0.4);
+      --assist-bg-strong: rgba(0, 0, 0, 0.5);
+      --assist-border: rgba(255, 255, 255, 0.1);
+      --assist-card-bg: rgba(0, 0, 0, 0.25);
+      --assist-card-border: rgba(255, 255, 255, 0.15);
+      --assist-ghost-border: rgba(255, 255, 255, 0.2);
+      --assist-key-bg: rgba(255, 255, 255, 0.15);
+      --assist-key-border: rgba(255, 255, 255, 0.1);
+      --assist-shadow: rgba(0, 0, 0, 0.3);
       --dock-radius: 14px;
       --swatch-radius: 8px;
     }
 
     body.ui-light {
       --ui-ink: #111827;
-      --ui-muted: #6B7280;
+      --ui-muted: rgba(0, 0, 0, 0.6);
       --ui-hairline: rgba(0, 0, 0, 0.1);
-      --ui-glass-a: rgba(255, 255, 255, 0.85);
-      --ui-glass-b: rgba(255, 255, 255, 0.85);
+      --ui-glass-a: rgba(255, 255, 255, 0.4);
+      --ui-glass-b: rgba(255, 255, 255, 0.4);
       --ui-shadow: rgba(0, 0, 0, 0.15);
       --ui-ring: #0066FF;
-      --form-bg: rgba(255, 255, 255, 0.95);
-      --form-border: rgba(0, 0, 0, 0.1);
-      --input-bg: rgba(0, 0, 0, 0.03);
+      --form-bg: rgba(255, 255, 255, 0.5);
+      --form-border: rgba(0, 0, 0, 0.15);
+      --input-bg: rgba(0, 0, 0, 0.05);
       --input-border: rgba(0, 0, 0, 0.1);
       --input-text: #111827;
-      --input-placeholder: #9CA3AF;
+      --input-placeholder: rgba(0, 0, 0, 0.4);
       --custom-preview: rgba(0, 0, 0, 0.03);
       --assist-fg: #111827;
-      --assist-muted: #6B7280;
-      --assist-bg: rgba(255, 255, 255, 0.9);
-      --assist-bg-strong: rgba(255, 255, 255, 1);
+      --assist-muted: rgba(0, 0, 0, 0.6);
+      --assist-bg: rgba(255, 255, 255, 0.4);
+      --assist-bg-strong: rgba(255, 255, 255, 0.5);
       --assist-border: rgba(0, 0, 0, 0.1);
-      --assist-card-bg: rgba(255, 255, 255, 0.95);
-      --assist-card-border: rgba(0, 0, 0, 0.1);
-      --assist-ghost-border: rgba(0, 0, 0, 0.15);
-      --assist-key-bg: rgba(0, 0, 0, 0.05);
-      --assist-key-border: rgba(0, 0, 0, 0.05);
+      --assist-card-bg: rgba(255, 255, 255, 0.35);
+      --assist-card-border: rgba(0, 0, 0, 0.15);
+      --assist-ghost-border: rgba(0, 0, 0, 0.2);
+      --assist-key-bg: rgba(0, 0, 0, 0.1);
+      --assist-key-border: rgba(0, 0, 0, 0.1);
       --assist-shadow: rgba(0, 0, 0, 0.15);
     }
 
@@ -674,7 +674,15 @@
       }
 
       function updateUiTone() {
-        var rgb = parseRgb(getComputedStyle(document.body).backgroundColor);
+        var temp = document.createElement("div");
+        temp.style.color = currentColor;
+        temp.style.position = "absolute";
+        temp.style.visibility = "hidden";
+        document.body.appendChild(temp);
+        var computedColor = getComputedStyle(temp).color;
+        document.body.removeChild(temp);
+
+        var rgb = parseRgb(computedColor);
         if (!rgb) {
           return;
         }
