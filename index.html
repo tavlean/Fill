@@ -32,68 +32,64 @@
   <style>
     :root {
       color-scheme: dark;
-      --ui-ink: rgba(243, 249, 255, 0.94);
-      --ui-muted: rgba(218, 233, 247, 0.72);
-      --ui-hairline: rgba(255, 255, 255, 0.24);
-      --ui-glass-a: rgba(226, 236, 236, 0.27);
-      --ui-glass-b: rgba(132, 147, 152, 0.21);
-      --ui-shadow: rgba(0, 0, 0, 0.34);
-      --ui-ring: rgba(131, 206, 255, 0.92);
-      --form-bg: rgba(20, 28, 36, 0.44);
-      --form-border: rgba(255, 255, 255, 0.16);
-      --form-inset: rgba(255, 255, 255, 0.18);
-      --input-bg: rgba(16, 23, 31, 0.52);
-      --input-border: rgba(255, 255, 255, 0.16);
-      --input-text: rgba(248, 252, 255, 0.95);
-      --input-placeholder: rgba(223, 238, 250, 0.58);
-      --custom-preview: linear-gradient(150deg, #8b5cf6, #3b82f6 50%, #22d3ee);
-      --assist-fg: rgba(237, 240, 246, 0.98);
-      --assist-muted: rgba(223, 227, 236, 0.9);
-      --assist-bg: rgba(35, 37, 43, 0.9);
-      --assist-bg-strong: rgba(28, 31, 38, 0.94);
-      --assist-border: rgba(132, 137, 149, 0.45);
-      --assist-card-bg: rgba(35, 37, 43, 0.76);
-      --assist-card-border: rgba(132, 137, 149, 0.33);
-      --assist-ghost-border: rgba(132, 137, 149, 0.23);
-      --assist-row-bg: rgba(42, 45, 53, 0.92);
-      --assist-row-border: rgba(113, 118, 130, 0.48);
-      --assist-key-bg: rgba(29, 32, 39, 0.96);
-      --assist-key-border: rgba(120, 126, 139, 0.62);
+      --ui-ink: #EAEAEA;
+      --ui-muted: #8A8F98;
+      --ui-hairline: rgba(255, 255, 255, 0.08);
+      --ui-glass-a: rgba(23, 23, 23, 0.7);
+      --ui-glass-b: rgba(23, 23, 23, 0.7);
+      --ui-shadow: rgba(0, 0, 0, 0.5);
+      --ui-ring: #0066FF;
+      --form-bg: rgba(28, 28, 30, 0.85);
+      --form-border: rgba(255, 255, 255, 0.08);
+      --input-bg: rgba(0, 0, 0, 0.25);
+      --input-border: rgba(255, 255, 255, 0.1);
+      --input-text: #EAEAEA;
+      --input-placeholder: #8A8F98;
+      --custom-preview: rgba(0, 0, 0, 0.2);
+      --assist-fg: #EAEAEA;
+      --assist-muted: #8A8F98;
+      --assist-bg: rgba(28, 28, 30, 0.85);
+      --assist-bg-strong: rgba(38, 38, 40, 0.95);
+      --assist-border: rgba(255, 255, 255, 0.08);
+      --assist-card-bg: rgba(23, 23, 23, 0.85);
+      --assist-card-border: rgba(255, 255, 255, 0.1);
+      --assist-ghost-border: rgba(255, 255, 255, 0.1);
+      --assist-key-bg: rgba(255, 255, 255, 0.08);
+      --assist-key-border: rgba(255, 255, 255, 0.04);
       --assist-shadow: rgba(0, 0, 0, 0.5);
+      --dock-radius: 14px;
+      --swatch-radius: 8px;
     }
 
     body.ui-light {
-      --ui-ink: rgba(16, 22, 30, 0.9);
-      --ui-muted: rgba(22, 30, 39, 0.68);
-      --ui-hairline: rgba(18, 22, 28, 0.2);
-      --ui-glass-a: rgba(255, 255, 255, 0.37);
-      --ui-glass-b: rgba(222, 228, 234, 0.3);
-      --ui-shadow: rgba(0, 0, 0, 0.22);
-      --ui-ring: rgba(38, 93, 180, 0.88);
-      --form-bg: rgba(246, 250, 255, 0.56);
-      --form-border: rgba(18, 22, 28, 0.16);
-      --form-inset: rgba(255, 255, 255, 0.26);
-      --input-bg: rgba(255, 255, 255, 0.67);
-      --input-border: rgba(18, 22, 28, 0.16);
-      --input-text: rgba(18, 23, 30, 0.95);
-      --input-placeholder: rgba(34, 41, 52, 0.54);
-      --assist-fg: rgba(237, 240, 246, 0.98);
-      --assist-muted: rgba(223, 227, 236, 0.9);
-      --assist-bg: rgba(35, 37, 43, 0.92);
-      --assist-bg-strong: rgba(28, 31, 38, 0.96);
-      --assist-border: rgba(132, 137, 149, 0.5);
-      --assist-card-bg: rgba(35, 37, 43, 0.8);
-      --assist-card-border: rgba(132, 137, 149, 0.36);
-      --assist-ghost-border: rgba(132, 137, 149, 0.26);
-      --assist-row-bg: rgba(42, 45, 53, 0.94);
-      --assist-row-border: rgba(113, 118, 130, 0.52);
-      --assist-key-bg: rgba(29, 32, 39, 0.98);
-      --assist-key-border: rgba(120, 126, 139, 0.65);
-      --assist-shadow: rgba(0, 0, 0, 0.52);
+      --ui-ink: #111827;
+      --ui-muted: #6B7280;
+      --ui-hairline: rgba(0, 0, 0, 0.1);
+      --ui-glass-a: rgba(255, 255, 255, 0.85);
+      --ui-glass-b: rgba(255, 255, 255, 0.85);
+      --ui-shadow: rgba(0, 0, 0, 0.15);
+      --ui-ring: #0066FF;
+      --form-bg: rgba(255, 255, 255, 0.95);
+      --form-border: rgba(0, 0, 0, 0.1);
+      --input-bg: rgba(0, 0, 0, 0.03);
+      --input-border: rgba(0, 0, 0, 0.1);
+      --input-text: #111827;
+      --input-placeholder: #9CA3AF;
+      --custom-preview: rgba(0, 0, 0, 0.03);
+      --assist-fg: #111827;
+      --assist-muted: #6B7280;
+      --assist-bg: rgba(255, 255, 255, 0.9);
+      --assist-bg-strong: rgba(255, 255, 255, 1);
+      --assist-border: rgba(0, 0, 0, 0.1);
+      --assist-card-bg: rgba(255, 255, 255, 0.95);
+      --assist-card-border: rgba(0, 0, 0, 0.1);
+      --assist-ghost-border: rgba(0, 0, 0, 0.15);
+      --assist-key-bg: rgba(0, 0, 0, 0.05);
+      --assist-key-border: rgba(0, 0, 0, 0.05);
+      --assist-shadow: rgba(0, 0, 0, 0.15);
     }
 
-    html,
-    body {
+    html, body {
       width: 100%;
       height: 100%;
       margin: 0;
@@ -105,7 +101,7 @@
       min-height: 100dvh;
       background: black;
       transition: background-color 170ms linear;
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       user-select: none;
       -webkit-user-select: none;
       touch-action: manipulation;
@@ -120,9 +116,7 @@
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
-      transition:
-        opacity 720ms cubic-bezier(0.22, 1, 0.36, 1),
-        visibility 0s linear 720ms;
+      transition: opacity 720ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 720ms;
       z-index: 10;
     }
 
@@ -130,9 +124,7 @@
       opacity: 1;
       visibility: visible;
       pointer-events: auto;
-      transition:
-        opacity 460ms cubic-bezier(0.22, 1, 0.36, 1),
-        visibility 0s linear 0s;
+      transition: opacity 460ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s;
     }
 
     .dock-wrap {
@@ -141,9 +133,7 @@
       gap: 12px;
       transform: translateY(20px) scale(0.97);
       filter: blur(10px);
-      transition:
-        transform 560ms cubic-bezier(0.22, 1, 0.36, 1),
-        filter 560ms cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 560ms cubic-bezier(0.22, 1, 0.36, 1), filter 560ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     #controls.visible .dock-wrap {
@@ -154,78 +144,61 @@
     .dock {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
-      border-radius: 999px;
-      background: linear-gradient(128deg, var(--ui-glass-a), var(--ui-glass-b));
+      gap: 8px;
+      padding: 10px;
+      border-radius: var(--dock-radius);
+      background: var(--ui-glass-a);
       border: 1px solid var(--ui-hairline);
-      box-shadow:
-        0 20px 42px var(--ui-shadow),
-        inset 0 1px 0 rgba(255, 255, 255, 0.36);
-      backdrop-filter: blur(22px) saturate(170%);
-      -webkit-backdrop-filter: blur(22px) saturate(170%);
+      box-shadow: 0 16px 32px var(--ui-shadow);
+      backdrop-filter: blur(32px) saturate(180%);
+      -webkit-backdrop-filter: blur(32px) saturate(180%);
     }
 
     .swatch {
       position: relative;
-      width: 64px;
-      height: 64px;
-      border: 1px solid rgba(255, 255, 255, 0.26);
-      border-radius: 20px;
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--swatch-radius);
       padding: 0;
       cursor: pointer;
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.22),
-        inset 0 -14px 24px rgba(0, 0, 0, 0.24),
-        0 9px 16px rgba(0, 0, 0, 0.26);
-      transition:
-        transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
-        box-shadow 320ms cubic-bezier(0.22, 1, 0.36, 1),
-        border-color 320ms ease;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+      background-clip: padding-box;
     }
 
-    .swatch::after {
-      content: "";
-      position: absolute;
-      inset: 1px;
-      border-radius: 18px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.23), rgba(255, 255, 255, 0) 48%);
-      pointer-events: none;
+    body.ui-light .swatch {
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
     }
 
     .swatch.is-active {
       border-color: var(--ui-ring);
-      box-shadow:
-        0 0 0 2px var(--ui-ring),
-        inset 0 1px 0 rgba(255, 255, 255, 0.22),
-        inset 0 -10px 20px rgba(0, 0, 0, 0.18),
-        0 12px 24px rgba(0, 0, 0, 0.34);
+      box-shadow: 0 0 0 1px var(--ui-ring);
     }
 
-    .swatch-black {
-      background: linear-gradient(150deg, #292929, #080808 58%, #000000);
-    }
-
-    .swatch-white {
-      background: linear-gradient(150deg, #ffffff, #ececec 58%, #d7d7d7);
-    }
-
-    .swatch-red {
-      background: linear-gradient(150deg, #ff6d6d, #dc1f1f 58%, #8f0a0a);
-    }
+    .swatch-black { background-color: #000000; }
+    .swatch-white { background-color: #ffffff; }
+    .swatch-red { background-color: #FF3B30; }
 
     .swatch-custom {
-      background: var(--custom-preview);
+      background: rgba(255, 255, 255, 0.05);
       color: var(--ui-ink);
-      font-size: 35px;
+      font-size: 20px;
       line-height: 1;
-      font-weight: 300;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    body.ui-light .swatch-custom {
+      background: rgba(0, 0, 0, 0.05);
     }
 
     .swatch-custom span {
       display: inline-block;
-      transform: translateY(-2px);
+      transform: translateY(-1px);
     }
 
     .swatch:focus-visible,
@@ -234,33 +207,27 @@
     .help-ghost:focus-visible,
     .shortcut-action:focus-visible {
       outline: 2px solid var(--ui-ring);
-      outline-offset: 3px;
-      box-shadow: 0 0 0 5px rgba(8, 12, 20, 0.52);
+      outline-offset: 2px;
     }
 
     .custom-form {
-      width: min(92vw, 560px);
+      width: min(92vw, 420px);
       display: grid;
       grid-template-columns: auto 1fr auto;
       align-items: center;
-      gap: 10px;
-      padding: 9px;
-      border-radius: 16px;
+      gap: 12px;
+      padding: 10px;
+      border-radius: var(--dock-radius);
       background: var(--form-bg);
       border: 1px solid var(--form-border);
-      box-shadow:
-        0 12px 24px rgba(0, 0, 0, 0.26),
-        inset 0 1px 0 var(--form-inset);
-      backdrop-filter: blur(10px) saturate(125%);
-      -webkit-backdrop-filter: blur(10px) saturate(125%);
+      box-shadow: 0 16px 32px var(--ui-shadow);
+      backdrop-filter: blur(32px) saturate(180%);
+      -webkit-backdrop-filter: blur(32px) saturate(180%);
       opacity: 0;
       transform: translateY(-10px) scale(0.98);
       pointer-events: none;
       visibility: hidden;
-      transition:
-        opacity 320ms ease,
-        transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
-        visibility 0s linear 320ms;
+      transition: opacity 320ms ease, transform 320ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 320ms;
     }
 
     .custom-form.open {
@@ -268,70 +235,72 @@
       transform: translateY(0) scale(1);
       pointer-events: auto;
       visibility: visible;
-      transition:
-        opacity 320ms ease,
-        transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
-        visibility 0s linear 0s;
+      transition: opacity 320ms ease, transform 320ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s;
     }
 
     .color-dot {
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
+      width: 16px;
+      height: 16px;
+      margin-left: 4px;
+      border-radius: 50%;
       border: 1px solid var(--ui-hairline);
       background: black;
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.25),
-        0 2px 7px rgba(0, 0, 0, 0.35);
     }
 
     .custom-form input,
     .apply-btn {
       border: 0;
-      border-radius: 12px;
+      border-radius: 6px;
       box-sizing: border-box;
       outline: none;
     }
 
     .custom-form input {
       min-width: 0;
-      padding: 11px 13px;
+      padding: 8px 12px;
       font-size: 14px;
-      letter-spacing: 0.01em;
+      font-weight: 500;
       background: var(--input-bg);
       border: 1px solid var(--input-border);
       color: var(--input-text);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      transition: border-color 150ms ease;
+    }
+    
+    .custom-form input:focus {
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    body.ui-light .custom-form input:focus {
+      border-color: rgba(0, 0, 0, 0.3);
     }
 
     .custom-form input::placeholder {
       color: var(--input-placeholder);
+      font-weight: 400;
     }
 
     .apply-btn {
-      width: 44px;
-      height: 44px;
+      width: 34px;
+      height: 34px;
       display: grid;
       place-items: center;
       cursor: pointer;
-      color: var(--ui-ink);
-      font-size: 18px;
-      line-height: 1;
-      background: linear-gradient(145deg, rgba(57, 109, 248, 0.8), rgba(37, 77, 176, 0.86));
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        0 6px 12px rgba(8, 18, 54, 0.25);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      background: var(--ui-ring);
+      transition: filter 150ms ease;
+      border-radius: 6px;
     }
 
     #error {
       min-height: 16px;
-      font-size: 12px;
+      font-size: 13px;
+      font-weight: 500;
       line-height: 1.2;
-      color: rgba(255, 212, 212, 0.95);
+      color: #FF453A;
       letter-spacing: 0.01em;
       text-align: center;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
       opacity: 0;
       transition: opacity 160ms ease;
     }
@@ -342,63 +311,51 @@
 
     .help-ghost {
       position: fixed;
-      right: 14px;
-      bottom: 14px;
+      right: 24px;
+      bottom: 24px;
       z-index: 22;
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       padding: 0;
       border: 1px solid var(--assist-ghost-border);
-      border-radius: 999px;
-      background:
-        linear-gradient(130deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03)),
-        var(--assist-bg-strong);
+      border-radius: 50%;
+      background: var(--assist-bg-strong);
       color: var(--assist-muted);
-      font-size: 18px;
-      line-height: 1;
+      font-size: 15px;
+      font-weight: 500;
       cursor: pointer;
-      opacity: 0.66;
-      backdrop-filter: blur(12px) saturate(150%);
-      -webkit-backdrop-filter: blur(12px) saturate(150%);
-      box-shadow:
-        0 8px 20px var(--assist-shadow),
-        inset 0 1px 0 rgba(255, 255, 255, 0.18);
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
-      transition:
-        opacity 220ms ease,
-        transform 220ms ease,
-        color 220ms ease;
+      opacity: 0.8;
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      transition: opacity 200ms ease, transform 200ms ease, color 200ms ease, background 200ms ease;
+      box-shadow: 0 4px 12px var(--assist-shadow);
     }
 
     .help-ghost.active {
-      opacity: 0.86;
+      opacity: 1;
       color: var(--assist-fg);
+      background: var(--assist-card-bg);
     }
 
     .help-card {
       position: fixed;
-      right: 14px;
-      bottom: 56px;
+      right: 24px;
+      bottom: 76px;
       z-index: 21;
-      width: min(92vw, 244px);
-      padding: 16px 16px 14px;
-      border-radius: 18px;
+      width: min(92vw, 260px);
+      padding: 16px;
+      border-radius: var(--dock-radius);
       border: 1px solid var(--assist-card-border);
       background: var(--assist-card-bg);
-      box-shadow:
-        0 16px 30px var(--assist-shadow),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(18px) saturate(145%);
-      -webkit-backdrop-filter: blur(18px) saturate(145%);
+      box-shadow: 0 20px 40px var(--assist-shadow);
+      backdrop-filter: blur(32px) saturate(180%);
+      -webkit-backdrop-filter: blur(32px) saturate(180%);
       color: var(--assist-fg);
       opacity: 0;
       transform: translateY(8px) scale(0.98);
       visibility: hidden;
       pointer-events: none;
-      transition:
-        opacity 280ms ease,
-        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
-        visibility 0s linear 280ms;
+      transition: opacity 240ms ease, transform 240ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 240ms;
     }
 
     .help-card.open {
@@ -406,67 +363,68 @@
       transform: translateY(0) scale(1);
       visibility: visible;
       pointer-events: auto;
-      transition:
-        opacity 280ms ease,
-        transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
-        visibility 0s linear 0s;
+      transition: opacity 240ms ease, transform 240ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s;
     }
 
     .keys {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 9px;
+      gap: 4px;
     }
 
     .help-credit {
-      margin-top: 12px;
+      margin-top: 16px;
       text-align: center;
-      font-size: 11px;
+      font-size: 12px;
+      font-weight: 500;
       color: var(--assist-muted);
-      opacity: 0.68;
-      letter-spacing: 0.01em;
     }
 
     .help-credit a {
       color: inherit;
       text-decoration: none;
-      opacity: 0.82;
-      transition: opacity 180ms ease;
+      transition: opacity 150ms ease, color 150ms ease;
     }
 
     .help-credit a:hover {
-      opacity: 0.96;
+      opacity: 1;
+      color: var(--ui-ink);
     }
 
     .shortcut {
-      width: 94%;
-      min-height: 46px;
-      padding: 8px 9px 8px 14px;
-      border-radius: 12px;
-      border: 1px solid var(--assist-row-border);
-      background: var(--assist-row-bg);
+      width: 100%;
+      min-height: 36px;
+      padding: 6px 8px 6px 10px;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 6px;
+      gap: 8px;
       box-sizing: border-box;
-      margin-inline: auto;
+      cursor: pointer;
+      color: var(--assist-fg);
+      transition: background 150ms ease;
+    }
+    
+    .shortcut:hover {
+      background: var(--assist-key-bg);
     }
 
     .shortcut-label {
       color: var(--assist-muted);
       font-size: 13px;
+      font-weight: 500;
       line-height: 1.2;
-      letter-spacing: 0.01em;
       text-align: left;
-      max-width: calc(100% - 46px);
     }
 
     .shortcut-key {
-      min-width: 34px;
-      height: 30px;
-      padding: 0 7px;
-      border-radius: 6px;
+      min-width: 26px;
+      height: 24px;
+      padding: 0 6px;
+      border-radius: 4px;
       border: 1px solid var(--assist-key-border);
       background: var(--assist-key-bg);
       color: var(--assist-fg);
@@ -475,23 +433,26 @@
       justify-content: center;
       font-size: 12px;
       font-weight: 600;
-      line-height: 1;
-      letter-spacing: 0.02em;
-      box-sizing: border-box;
-      text-align: center;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    body.ui-light .shortcut-key {
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     }
 
     .shortcut-action {
       appearance: none;
       font: inherit;
       text-align: left;
-      cursor: pointer;
-      transition: background 200ms ease, border-color 200ms ease, transform 200ms ease;
     }
 
     .shortcut-action.active {
-      background: rgba(120, 198, 255, 0.2);
+      background: rgba(10, 102, 194, 0.1);
+    }
+
+    .shortcut-action.active .shortcut-key {
       border-color: var(--ui-ring);
+      color: var(--ui-ring);
     }
 
     .hint-toast {
@@ -500,32 +461,27 @@
       bottom: calc(clamp(14px, 4vh, 38px) + 96px);
       transform: translateX(-50%) translateY(8px);
       z-index: 9;
-      padding: 12px 32px;
+      padding: 10px 24px;
       border-radius: 999px;
       border: 1px solid var(--ui-hairline);
-      background: rgba(26, 34, 40, 0.44);
-      color: rgba(214, 230, 245, 0.62);
-      font-size: 20px;
-      letter-spacing: 0.01em;
-      backdrop-filter: blur(12px) saturate(140%);
-      -webkit-backdrop-filter: blur(12px) saturate(140%);
+      background: var(--ui-glass-a);
+      color: var(--assist-fg);
+      font-size: 14px;
+      font-weight: 500;
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
       opacity: 0;
       visibility: hidden;
-      transition:
-        opacity 900ms ease,
-        transform 900ms ease,
-        visibility 0s linear 900ms;
+      transition: opacity 900ms ease, transform 900ms ease, visibility 0s linear 900ms;
       pointer-events: none;
+      box-shadow: 0 10px 30px var(--ui-shadow);
     }
 
     .hint-toast.visible {
-      opacity: 0.82;
+      opacity: 1;
       visibility: visible;
       transform: translateX(-50%) translateY(0);
-      transition:
-        opacity 1800ms ease,
-        transform 1800ms ease,
-        visibility 0s linear 0s;
+      transition: opacity 1800ms ease, transform 1800ms ease, visibility 0s linear 0s;
     }
 
     .visually-hidden {
@@ -544,88 +500,58 @@
       inset: auto 14px 14px;
       z-index: 30;
       max-width: min(560px, calc(100vw - 28px));
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      background: rgba(8, 8, 8, 0.9);
-      color: rgba(255, 255, 255, 0.92);
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--ui-hairline);
+      background: var(--assist-bg-strong);
+      color: var(--assist-fg);
       font-size: 14px;
-      line-height: 1.45;
+      font-weight: 500;
     }
 
     @media (hover: hover) and (pointer: fine) {
       .swatch:hover {
-        transform: translateY(-5px) scale(1.04);
-        box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, 0.22),
-          inset 0 -10px 20px rgba(0, 0, 0, 0.18),
-          0 16px 26px rgba(0, 0, 0, 0.34);
-        border-color: rgba(255, 255, 255, 0.4);
+        transform: translateY(-2px);
       }
 
       .help-ghost:hover {
         opacity: 1;
-        color: var(--assist-fg);
-        transform: translateY(-1px);
+        background: var(--assist-card-bg);
       }
 
       .apply-btn:hover {
-        filter: brightness(1.08);
-      }
-
-      .shortcut-action:hover {
-        background: rgba(255, 255, 255, 0.12);
-        border-color: rgba(255, 255, 255, 0.26);
-        transform: translateY(-1px);
+        filter: brightness(1.1);
       }
     }
 
     .swatch:active {
-      transform: translateY(-1px) scale(1.01);
+      transform: translateY(0);
     }
 
     .apply-btn:active {
       transform: translateY(1px);
     }
 
-    .shortcut-action:active {
-      transform: translateY(0);
-    }
-
     @media (max-width: 540px) {
       .dock {
-        gap: 10px;
-        padding: 10px 11px;
+        gap: 8px;
+        padding: 8px;
       }
-
       .swatch {
-        width: 56px;
-        height: 56px;
-        border-radius: 18px;
+        width: 40px;
+        height: 40px;
       }
-
-      .swatch::after {
-        border-radius: 16px;
-      }
-
       .custom-form input {
         font-size: 16px;
       }
-
-      .hint-toast {
-        font-size: 16px;
-        padding: 9px 18px;
-      }
-
       .help-card {
-        right: 10px;
-        bottom: 50px;
+        right: 14px;
+        bottom: 70px;
         width: min(94vw, 242px);
       }
-
       .help-ghost {
-        right: 10px;
-        bottom: 10px;
+        right: 14px;
+        bottom: 14px;
       }
     }
   </style>
