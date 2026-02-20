@@ -3,7 +3,32 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Screen Color Fill</title>
+  <meta name="description" content="Fill Your Screen with Solid Colors.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#000000" id="themeColorMeta">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="application-name" content="Fill">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Fill">
+  <meta property="og:title" content="Fill">
+  <meta property="og:description" content="Fill Your Screen with Solid Colors.">
+  <meta property="og:url" content="/">
+  <meta property="og:image" content="/social-preview.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Fill preview image">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Fill">
+  <meta name="twitter:description" content="Fill Your Screen with Solid Colors.">
+  <meta name="twitter:image" content="/social-preview.png">
+  <meta name="twitter:image:alt" content="Fill preview image">
+  <link rel="canonical" href="/">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <title>Fill</title>
   <style>
     :root {
       color-scheme: dark;
@@ -514,6 +539,20 @@
       border: 0;
     }
 
+    .noscript-banner {
+      position: fixed;
+      inset: auto 14px 14px;
+      z-index: 30;
+      max-width: min(560px, calc(100vw - 28px));
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(8, 8, 8, 0.9);
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
     @media (hover: hover) and (pointer: fine) {
       .swatch:hover {
         transform: translateY(-5px) scale(1.04);
@@ -592,6 +631,13 @@
   </style>
 </head>
 <body>
+  <main class="visually-hidden">
+    <h1>Fill</h1>
+    <p>Fill Your Screen with Solid Colors.</p>
+  </main>
+  <noscript>
+    <div class="noscript-banner">JavaScript is required to use Fill. Enable JavaScript and reload this page.</div>
+  </noscript>
   <div id="controls" aria-hidden="true">
     <div class="dock-wrap" role="dialog" aria-label="Color controls">
       <div class="dock" role="group" aria-label="Color choices">
@@ -665,6 +711,11 @@
       var pinToggle = document.getElementById("pinToggle");
       var pinLabel = document.getElementById("pinLabel");
       var hintToast = document.getElementById("hintToast");
+      var themeColorMeta = document.getElementById("themeColorMeta");
+      var canonicalLink = document.querySelector("link[rel='canonical']");
+      var ogUrlMeta = document.querySelector("meta[property='og:url']");
+      var ogImageMeta = document.querySelector("meta[property='og:image']");
+      var twitterImageMeta = document.querySelector("meta[name='twitter:image']");
 
       var PRESETS = ["black", "white", "red"];
       var currentColor = "black";
@@ -703,6 +754,30 @@
         document.body.classList.toggle("ui-light", lightBg);
       }
 
+      function updateThemeColorMeta(color) {
+        if (!themeColorMeta) {
+          return;
+        }
+        themeColorMeta.setAttribute("content", color);
+      }
+
+      function updateUrlMetadata() {
+        var isHttp = window.location.protocol === "http:" || window.location.protocol === "https:";
+        var canonical = isHttp ? window.location.origin + window.location.pathname : (window.location.pathname || "/");
+        if (canonicalLink) {
+          canonicalLink.setAttribute("href", canonical);
+        }
+        if (ogUrlMeta) {
+          ogUrlMeta.setAttribute("content", canonical);
+        }
+        if (isHttp && ogImageMeta) {
+          ogImageMeta.setAttribute("content", window.location.origin + "/social-preview.png");
+        }
+        if (isHttp && twitterImageMeta) {
+          twitterImageMeta.setAttribute("content", window.location.origin + "/social-preview.png");
+        }
+      }
+
       function setActiveSwatch(source) {
         presetButtons.forEach(function (button) {
           var isActive = button.getAttribute("data-color") === source;
@@ -718,6 +793,7 @@
         currentColor = color;
         document.body.style.backgroundColor = color;
         colorDot.style.background = color;
+        updateThemeColorMeta(color);
         updateUiTone();
 
         if (source === "custom") {
@@ -1104,6 +1180,7 @@
       });
 
       updatePinUi();
+      updateUrlMetadata();
       setColor(currentColor, "black");
       setCustomVisible(false, false);
       setHelpVisible(false);
