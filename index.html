@@ -826,6 +826,10 @@
       function hidePanel() {
         clearTimeout(hideTimer);
         panelVisible = false;
+        if (controlsPinned) {
+          controlsPinned = false;
+          updatePinUi();
+        }
         controls.classList.remove("visible");
         controls.setAttribute("aria-hidden", "true");
         setCustomVisible(false, false);
