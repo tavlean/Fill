@@ -393,6 +393,26 @@
       gap: 9px;
     }
 
+    .help-credit {
+      margin-top: 12px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--assist-muted);
+      opacity: 0.68;
+      letter-spacing: 0.01em;
+    }
+
+    .help-credit a {
+      color: inherit;
+      text-decoration: none;
+      opacity: 0.82;
+      transition: opacity 180ms ease;
+    }
+
+    .help-credit a:hover {
+      opacity: 0.96;
+    }
+
     .shortcut {
       width: 94%;
       min-height: 46px;
@@ -613,6 +633,7 @@
         <span class="shortcut-key">P</span>
       </button>
     </div>
+    <div class="help-credit">Created by <a href="https://x.com/tavlean" target="_blank" rel="noopener noreferrer">Tavlean</a></div>
   </div>
 
   <div id="hintToast" class="hint-toast" aria-live="polite">Click anywhere for controls</div>
