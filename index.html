@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        <meta name="description" content="Fill Your Screen with Solid Colors." />
+        <meta name="description" content="Turn any screen into a controllable light or solid color — adjust brightness and warmth, lock it as a lightbox, and share colors by link." />
         <meta name="robots" content="index,follow,max-image-preview:large" />
         <meta name="theme-color" content="#000000" id="themeColorMeta" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -12,7 +12,7 @@
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Fill" />
         <meta property="og:title" content="Fill" />
-        <meta property="og:description" content="Fill Your Screen with Solid Colors." />
+        <meta property="og:description" content="Turn any screen into a controllable light or solid color — adjust brightness and warmth, lock it as a lightbox, and share colors by link." />
         <meta property="og:url" content="https://fill.tavlean.com/" />
         <meta
             property="og:image"
@@ -24,7 +24,7 @@
         <meta property="og:image:alt" content="Fill preview image" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Fill" />
-        <meta name="twitter:description" content="Fill Your Screen with Solid Colors." />
+        <meta name="twitter:description" content="Turn any screen into a controllable light or solid color — adjust brightness and warmth, lock it as a lightbox, and share colors by link." />
         <meta
             name="twitter:image"
             content="https://fill.tavlean.com/assets/images/social-preview.png"
@@ -71,8 +71,8 @@
         <label class="visually-hidden" for="colorInput">Custom color</label>
         <input id="colorInput" type="text" autocomplete="off" spellcheck="false" placeholder="Any CSS color" aria-describedby="error">
         <button id="applyBtn" class="apply-btn" type="submit" aria-label="Apply color">></button>
+        <div id="error" role="status" aria-live="polite"></div>
       </form>
-      <div id="error" role="status" aria-live="polite"></div>
     </div>
   </div>
 
@@ -106,10 +106,14 @@
         <span class="shortcut-key">P</span>
       </button>
     </div>
+    <div class="help-legend">
+      <div class="legend-row"><span class="shortcut-label">Brightness</span><span class="legend-hint">&uarr;&darr; · drag</span></div>
+      <div class="legend-row"><span class="shortcut-label">Temperature</span><span class="legend-hint">&larr;&rarr; · drag</span></div>
+    </div>
     <div class="help-credit">Created by <a href="https://x.com/tavlean" target="_blank" rel="noopener noreferrer">Tavlean</a></div>
   </div>
 
-  <div id="hintToast" class="hint-toast" aria-live="polite">Click anywhere for controls</div>
+  <div id="hintToast" class="hint-toast" aria-live="polite">Click for controls · drag to dim</div>
 
   <div id="indicator" class="indicator" aria-hidden="true">
     <span class="ind-icon" aria-hidden="true"></span>
