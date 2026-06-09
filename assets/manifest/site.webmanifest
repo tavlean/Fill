@@ -1,7 +1,7 @@
 {
   "name": "Fill",
   "short_name": "Fill",
-  "description": "Fill Your Screen with Solid Colors.",
+  "description": "Turn any screen into a controllable light or solid color.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

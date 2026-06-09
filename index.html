@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        <meta name="description" content="Fill Your Screen with Solid Colors." />
+        <meta name="description" content="Turn any screen into a controllable light or solid color — adjust brightness and warmth, lock it as a lightbox, and share colors by link." />
         <meta name="robots" content="index,follow,max-image-preview:large" />
         <meta name="theme-color" content="#000000" id="themeColorMeta" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -12,7 +12,7 @@
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Fill" />
         <meta property="og:title" content="Fill" />
-        <meta property="og:description" content="Fill Your Screen with Solid Colors." />
+        <meta property="og:description" content="Turn any screen into a controllable light or solid color — adjust brightness and warmth, lock it as a lightbox, and share colors by link." />
         <meta property="og:url" content="https://fill.tavlean.com/" />
         <meta
             property="og:image"
@@ -24,7 +24,7 @@
         <meta property="og:image:alt" content="Fill preview image" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Fill" />
-        <meta name="twitter:description" content="Fill Your Screen with Solid Colors." />
+        <meta name="twitter:description" content="Turn any screen into a controllable light or solid color — adjust brightness and warmth, lock it as a lightbox, and share colors by link." />
         <meta
             name="twitter:image"
             content="https://fill.tavlean.com/assets/images/social-preview.png"
@@ -43,8 +43,6 @@
                 JavaScript is required to use Fill. Enable JavaScript and reload this page.
             </div>
         </noscript>
-    </body>
-</html>
 
   <div id="controls" aria-hidden="true">
     <div class="dock-wrap" role="dialog" aria-label="Color controls">
@@ -56,13 +54,25 @@
           <span>+</span>
         </button>
       </div>
+      <div class="slider-row" id="brightnessRow">
+        <span class="slider-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        </span>
+        <input id="brightnessSlider" class="slider slider-brightness" type="range" min="0" max="100" step="1" value="100" aria-label="Brightness">
+      </div>
+      <div class="slider-row" id="temperatureRow" hidden>
+        <span class="slider-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.76V5a2 2 0 0 0-4 0v9.76a4 4 0 1 0 4 0z"/></svg>
+        </span>
+        <input id="temperatureSlider" class="slider slider-temperature" type="range" min="0" max="100" step="1" value="100" aria-label="Color temperature, warm to cool">
+      </div>
       <form id="customForm" class="custom-form" novalidate aria-hidden="true">
         <span id="colorDot" class="color-dot" aria-hidden="true"></span>
         <label class="visually-hidden" for="colorInput">Custom color</label>
         <input id="colorInput" type="text" autocomplete="off" spellcheck="false" placeholder="Any CSS color" aria-describedby="error">
         <button id="applyBtn" class="apply-btn" type="submit" aria-label="Apply color">></button>
+        <div id="error" role="status" aria-live="polite"></div>
       </form>
-      <div id="error" role="status" aria-live="polite"></div>
     </div>
   </div>
 
@@ -85,6 +95,9 @@
       <button class="shortcut shortcut-action" type="button" data-shortcut-action="fullscreen">
         <span class="shortcut-label">Fullscreen</span><span class="shortcut-key">F</span>
       </button>
+      <button class="shortcut shortcut-action" type="button" data-shortcut-action="lock">
+        <span class="shortcut-label">Lock screen</span><span class="shortcut-key">L</span>
+      </button>
       <button class="shortcut shortcut-action" type="button" data-shortcut-action="hide">
         <span class="shortcut-label">Hide</span><span class="shortcut-key">Esc</span>
       </button>
@@ -93,11 +106,22 @@
         <span class="shortcut-key">P</span>
       </button>
     </div>
+    <div class="help-legend">
+      <div class="legend-row"><span class="shortcut-label">Brightness</span><span class="legend-hint">&uarr;&darr; · drag</span></div>
+      <div class="legend-row"><span class="shortcut-label">Temperature</span><span class="legend-hint">&larr;&rarr; · drag</span></div>
+    </div>
     <div class="help-credit">Created by <a href="https://x.com/tavlean" target="_blank" rel="noopener noreferrer">Tavlean</a></div>
   </div>
 
-  <div id="hintToast" class="hint-toast" aria-live="polite">Click anywhere for controls</div>
+  <div id="hintToast" class="hint-toast" aria-live="polite">Click for controls · drag to dim</div>
 
+  <div id="indicator" class="indicator" aria-hidden="true">
+    <span class="ind-icon" aria-hidden="true"></span>
+    <span class="ind-value"></span>
+  </div>
+
+  <script src="/assets/js/color.js"></script>
+  <script src="/assets/js/store.js"></script>
   <script src="/assets/js/app.js"></script>
-</body>
+    </body>
 </html>
