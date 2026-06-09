@@ -276,6 +276,16 @@ body.ui-light .swatch-custom {
     );
 }
 
+.slider-temperature {
+    background: linear-gradient(
+        to right,
+        #ff8f33,
+        #ffe7c4 55%,
+        #ffffff 88%,
+        #eef4ff
+    );
+}
+
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;

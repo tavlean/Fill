@@ -16,6 +16,8 @@
     var hintToast = document.getElementById("hintToast");
     var themeColorMeta = document.getElementById("themeColorMeta");
     var brightnessSlider = document.getElementById("brightnessSlider");
+    var temperatureRow = document.getElementById("temperatureRow");
+    var temperatureSlider = document.getElementById("temperatureSlider");
     var indicator = document.getElementById("indicator");
     var indIcon = indicator.querySelector(".ind-icon");
     var indValue = indicator.querySelector(".ind-value");
@@ -26,7 +28,13 @@
         '<path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2' +
         'M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
 
+    var THERMO_SVG =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+        'stroke-linecap="round" stroke-linejoin="round">' +
+        '<path d="M14 14.76V5a2 2 0 0 0-4 0v9.76a4 4 0 1 0 4 0z"/></svg>';
+
     var BRIGHTNESS_STEP = 0.05;
+    var TEMP_STEP = 0.05;
     var DRAG_THRESHOLD = 8;
 
     var panelVisible = false;
@@ -64,6 +72,21 @@
             brightnessSlider.value = brightnessPct;
         }
         brightnessSlider.style.setProperty("--fill", brightnessPct + "%");
+
+        var lightMode = state.temp !== null;
+        temperatureRow.hidden = !lightMode;
+        if (lightMode) {
+            var tempPct = Math.round(state.temp * 100);
+            if (temperatureSlider.value !== String(tempPct)) {
+                temperatureSlider.value = tempPct;
+            }
+        }
+    }
+
+    /** Warm→cool slider position as an approximate Kelvin label. */
+    function tempKelvin() {
+        var t = store.get().temp || 0;
+        return Math.round((store.TEMP_MIN_K + t * (store.TEMP_MAX_K - store.TEMP_MIN_K)) / 100) * 100;
     }
 
     function showIndicator(iconSvg, text) {
@@ -345,6 +368,11 @@
         resetHideTimer();
     });
 
+    temperatureSlider.addEventListener("input", function () {
+        store.setTemperature(temperatureSlider.value / 100);
+        resetHideTimer();
+    });
+
     panel.addEventListener("pointerdown", function (event) {
         event.stopPropagation();
         resetHideTimer();
@@ -399,12 +427,15 @@
         if (event.pointerType === "mouse" && event.button !== 0) {
             return;
         }
+        var state = store.get();
         drag = {
             id: event.pointerId,
             startX: event.clientX,
             startY: event.clientY,
-            startBrightness: store.get().brightness,
+            startBrightness: state.brightness,
+            startTemp: state.temp,
             moved: false,
+            axis: null,
         };
     });
 
@@ -419,11 +450,19 @@
                 return;
             }
             drag.moved = true;
+            // Horizontal drag tunes temperature, but only in light mode.
+            var canTemp = drag.startTemp !== null;
+            drag.axis = canTemp && Math.abs(dx) > Math.abs(dy) ? "x" : "y";
         }
-        // Vertical drag controls brightness; dragging up brightens.
-        var range = Math.max(120, window.innerHeight * 0.6);
-        store.setBrightness(drag.startBrightness + -dy / range);
-        showIndicator(SUN_SVG, Math.round(store.get().brightness * 100) + "%");
+        if (drag.axis === "x") {
+            // Dragging right cools (toward white).
+            store.setTemperature(drag.startTemp + dx / Math.max(160, window.innerWidth * 0.6));
+            showIndicator(THERMO_SVG, tempKelvin() + "K");
+        } else {
+            // Dragging up brightens.
+            store.setBrightness(drag.startBrightness + -dy / Math.max(120, window.innerHeight * 0.6));
+            showIndicator(SUN_SVG, Math.round(store.get().brightness * 100) + "%");
+        }
     });
 
     function endDrag(event) {
@@ -492,6 +531,21 @@
             }
             event.preventDefault();
             nudgeBrightness(key === "ArrowUp" ? BRIGHTNESS_STEP : -BRIGHTNESS_STEP, !panelVisible);
+            return;
+        }
+
+        if (key === "ArrowLeft" || key === "ArrowRight") {
+            if (active && active.type === "range") {
+                return;
+            }
+            if (store.get().temp === null) {
+                return; // temperature only applies in light mode
+            }
+            event.preventDefault();
+            store.setTemperature(store.get().temp + (key === "ArrowRight" ? TEMP_STEP : -TEMP_STEP));
+            if (!panelVisible) {
+                showIndicator(THERMO_SVG, tempKelvin() + "K");
+            }
             return;
         }
 

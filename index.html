@@ -60,6 +60,12 @@
         </span>
         <input id="brightnessSlider" class="slider slider-brightness" type="range" min="0" max="100" step="1" value="100" aria-label="Brightness">
       </div>
+      <div class="slider-row" id="temperatureRow" hidden>
+        <span class="slider-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.76V5a2 2 0 0 0-4 0v9.76a4 4 0 1 0 4 0z"/></svg>
+        </span>
+        <input id="temperatureSlider" class="slider slider-temperature" type="range" min="0" max="100" step="1" value="100" aria-label="Color temperature, warm to cool">
+      </div>
       <form id="customForm" class="custom-form" novalidate aria-hidden="true">
         <span id="colorDot" class="color-dot" aria-hidden="true"></span>
         <label class="visually-hidden" for="colorInput">Custom color</label>
