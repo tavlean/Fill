@@ -631,6 +631,16 @@ body.ui-light .shortcut-key {
         visibility 0s linear 0s;
 }
 
+body.locked {
+    cursor: none;
+}
+
+body.locked .help-ghost {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
 .visually-hidden {
     position: absolute;
     width: 1px;

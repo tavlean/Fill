@@ -33,9 +33,16 @@
         'stroke-linecap="round" stroke-linejoin="round">' +
         '<path d="M14 14.76V5a2 2 0 0 0-4 0v9.76a4 4 0 1 0 4 0z"/></svg>';
 
+    var LOCK_SVG =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+        'stroke-linecap="round" stroke-linejoin="round">' +
+        '<rect x="4" y="11" width="16" height="10" rx="2"/>' +
+        '<path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+
     var BRIGHTNESS_STEP = 0.05;
     var TEMP_STEP = 0.05;
     var DRAG_THRESHOLD = 8;
+    var UNLOCK_HOLD_MS = 1200;
 
     var panelVisible = false;
     var customVisible = false;
@@ -47,6 +54,10 @@
     var hintDelayTimer = null;
     var indicatorTimer = null;
     var drag = null;
+    var locked = false;
+    var wakeLock = null;
+    var unlockTimer = null;
+    var unlockHold = null;
     var hoverHintsEnabled = !!(
         window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches
     );
@@ -274,6 +285,81 @@
         } catch (_err) {}
     }
 
+    /* ---- lock / wake lock -------------------------------------------- */
+
+    function requestWakeLock() {
+        if (!navigator.wakeLock || wakeLock) {
+            return;
+        }
+        navigator.wakeLock
+            .request("screen")
+            .then(function (sentinel) {
+                wakeLock = sentinel;
+                sentinel.addEventListener("release", function () {
+                    wakeLock = null;
+                });
+            })
+            .catch(function () {});
+    }
+
+    function releaseWakeLock() {
+        if (wakeLock) {
+            wakeLock.release().catch(function () {});
+            wakeLock = null;
+        }
+    }
+
+    function setLocked(on) {
+        if (on === locked) {
+            return;
+        }
+        locked = on;
+        document.body.classList.toggle("locked", on);
+        if (on) {
+            hidePanel();
+            setHelpVisible(false);
+            hideHint();
+            requestWakeLock();
+            showIndicator(LOCK_SVG, "Hold to unlock");
+        } else {
+            cancelUnlockHold(true);
+            releaseWakeLock();
+            showIndicator(LOCK_SVG, "Unlocked");
+        }
+    }
+
+    function beginUnlockHold(event) {
+        unlockHold = { id: event.pointerId, x: event.clientX, y: event.clientY };
+        clearTimeout(unlockTimer);
+        unlockTimer = setTimeout(function () {
+            unlockTimer = null;
+            unlockHold = null;
+            setLocked(false);
+        }, UNLOCK_HOLD_MS);
+    }
+
+    function trackUnlockHold(event) {
+        if (!unlockHold || event.pointerId !== unlockHold.id) {
+            return;
+        }
+        if (
+            Math.abs(event.clientX - unlockHold.x) > DRAG_THRESHOLD ||
+            Math.abs(event.clientY - unlockHold.y) > DRAG_THRESHOLD
+        ) {
+            cancelUnlockHold(true); // moved (e.g. wiping) — don't nag
+        }
+    }
+
+    function cancelUnlockHold(silent) {
+        clearTimeout(unlockTimer);
+        unlockTimer = null;
+        var wasHolding = !!unlockHold;
+        unlockHold = null;
+        if (wasHolding && !silent) {
+            showIndicator(LOCK_SVG, "Hold to unlock");
+        }
+    }
+
     /* ---- shortcut actions -------------------------------------------- */
 
     function applyPresetShortcut(name) {
@@ -320,6 +406,10 @@
         }
         if (action === "pin") {
             togglePinShortcut();
+            return;
+        }
+        if (action === "lock") {
+            setLocked(true);
         }
     }
 
@@ -414,6 +504,10 @@
 
     document.addEventListener("pointerdown", function (event) {
         hideHint();
+        if (locked) {
+            beginUnlockHold(event);
+            return;
+        }
         if (helpVisible && !helpCard.contains(event.target) && event.target !== helpGhost) {
             setHelpVisible(false);
             return;
@@ -440,6 +534,10 @@
     });
 
     document.addEventListener("pointermove", function (event) {
+        if (locked) {
+            trackUnlockHold(event);
+            return;
+        }
         if (!drag || event.pointerId !== drag.id) {
             return;
         }
@@ -466,6 +564,10 @@
     });
 
     function endDrag(event) {
+        if (locked) {
+            cancelUnlockHold(false);
+            return;
+        }
         if (!drag || event.pointerId !== drag.id) {
             return;
         }
@@ -479,6 +581,13 @@
     document.addEventListener("pointerup", endDrag);
     document.addEventListener("pointercancel", function () {
         drag = null;
+        cancelUnlockHold(true);
+    });
+
+    document.addEventListener("visibilitychange", function () {
+        if (locked && document.visibilityState === "visible") {
+            requestWakeLock();
+        }
     });
 
     document.addEventListener("pointermove", function (event) {
@@ -509,6 +618,14 @@
         var active = document.activeElement;
         var typingInCustom = !!(active && customForm.contains(active));
         hideHint();
+
+        if (locked) {
+            if (key === "l" || key === "L" || key === "Escape") {
+                event.preventDefault();
+                setLocked(false);
+            }
+            return;
+        }
 
         if (key === "Escape") {
             runShortcutAction("hide");
@@ -569,6 +686,11 @@
         if (key === "f" || key === "F") {
             event.preventDefault();
             runShortcutAction("fullscreen");
+            return;
+        }
+        if (key === "l" || key === "L") {
+            event.preventDefault();
+            setLocked(true);
             return;
         }
         if (key === "p" || key === "P") {
