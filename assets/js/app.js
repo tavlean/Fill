@@ -1,4 +1,5 @@
 (function () {
+    var color = window.Fill.color;
     var controls = document.getElementById("controls");
     var panel = controls.querySelector(".dock-wrap");
     var customForm = document.getElementById("customForm");
@@ -31,33 +32,12 @@
     var HOVER_HINT_DELAY_MS = 1500;
     var HIDE_DELAY_MS = 5000;
 
-    function parseRgb(text) {
-        var parts = text && text.match(/[\d.]+/g);
-        if (!parts || parts.length < 3) {
-            return null;
-        }
-        return {
-            r: Math.max(0, Math.min(255, parseFloat(parts[0]))),
-            g: Math.max(0, Math.min(255, parseFloat(parts[1]))),
-            b: Math.max(0, Math.min(255, parseFloat(parts[2]))),
-        };
-    }
-
     function updateUiTone() {
-        var temp = document.createElement("div");
-        temp.style.color = currentColor;
-        temp.style.position = "absolute";
-        temp.style.visibility = "hidden";
-        document.body.appendChild(temp);
-        var computedColor = getComputedStyle(temp).color;
-        document.body.removeChild(temp);
-
-        var rgb = parseRgb(computedColor);
+        var rgb = color.parse(currentColor);
         if (!rgb) {
             return;
         }
-        var luminance = (0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b) / 255;
-        var lightBg = luminance > 0.62;
+        var lightBg = color.luminance(rgb) > 0.62;
         document.body.classList.toggle("ui-light", lightBg);
     }
 
@@ -230,7 +210,7 @@
             return;
         }
 
-        if (window.CSS && CSS.supports && CSS.supports("color", value)) {
+        if (color.isValid(value)) {
             setColor(value, "custom");
             finalizeColorSelection();
             return;
