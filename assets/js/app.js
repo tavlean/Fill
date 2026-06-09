@@ -709,9 +709,32 @@
 
     /* ---- init --------------------------------------------------------- */
 
+    function showTouchHintOnce() {
+        if (hoverHintsEnabled) {
+            return; // mouse users get the hover hint instead
+        }
+        try {
+            if (localStorage.getItem("fill:hinted")) {
+                return;
+            }
+        } catch (_err) {}
+        setTimeout(function () {
+            if (panelVisible || helpVisible || locked) {
+                return;
+            }
+            hintToast.textContent = "Tap for controls · drag to adjust";
+            hintToast.classList.add("visible");
+            hintTimer = setTimeout(hideHint, 4800);
+            try {
+                localStorage.setItem("fill:hinted", "1");
+            } catch (_err) {}
+        }, 1200);
+    }
+
     store.subscribe(render);
     updatePinUi();
     setCustomVisible(false, false);
     setHelpVisible(false);
     store.load();
+    showTouchHintOnce();
 })();
