@@ -1,5 +1,6 @@
 (function () {
-    var color = window.Fill.color;
+    var store = window.Fill.store;
+
     var controls = document.getElementById("controls");
     var panel = controls.querySelector(".dock-wrap");
     var customForm = document.getElementById("customForm");
@@ -15,8 +16,6 @@
     var hintToast = document.getElementById("hintToast");
     var themeColorMeta = document.getElementById("themeColorMeta");
 
-    var PRESETS = ["black", "white", "red"];
-    var currentColor = "black";
     var panelVisible = false;
     var customVisible = false;
     var helpVisible = false;
@@ -32,57 +31,55 @@
     var HOVER_HINT_DELAY_MS = 1500;
     var HIDE_DELAY_MS = 5000;
 
-    function updateUiTone() {
-        var rgb = color.parse(currentColor);
-        if (!rgb) {
-            return;
+    /* ---- rendering ---------------------------------------------------- */
+
+    function render() {
+        var css = store.displayedCss();
+        document.body.style.backgroundColor = css;
+        colorDot.style.background = css;
+        if (themeColorMeta) {
+            themeColorMeta.setAttribute("content", css);
         }
-        var lightBg = color.luminance(rgb) > 0.62;
-        document.body.classList.toggle("ui-light", lightBg);
+        document.body.classList.toggle("ui-light", store.isLight());
+        setActiveSwatch(store.activeSwatch());
     }
 
-    function updateThemeColorMeta(color) {
-        if (!themeColorMeta) {
-            return;
-        }
-        themeColorMeta.setAttribute("content", color);
-    }
-
-    function setActiveSwatch(source) {
+    function setActiveSwatch(active) {
         presetButtons.forEach(function (button) {
-            var isActive = button.getAttribute("data-color") === source;
+            var isActive = button.getAttribute("data-color") === active;
             button.classList.toggle("is-active", isActive);
             button.setAttribute("aria-pressed", isActive ? "true" : "false");
         });
-        var customActive = source === "custom";
+        var customActive = active === "custom";
         customToggle.classList.toggle("is-active", customActive);
         customToggle.setAttribute("aria-pressed", customActive ? "true" : "false");
     }
 
-    function setColor(color, source) {
-        currentColor = color;
-        document.body.style.backgroundColor = color;
-        colorDot.style.background = color;
-        updateThemeColorMeta(color);
-        updateUiTone();
-
-        if (source === "custom") {
-            setActiveSwatch("custom");
-            return;
+    /** White is the entry to light mode; other presets are plain colors. */
+    function selectColor(name) {
+        if (name === "white") {
+            store.setTemperature(1);
+        } else {
+            store.setColor(name);
         }
-
-        if (PRESETS.indexOf(source) !== -1) {
-            setActiveSwatch(source);
-            return;
-        }
-
-        setActiveSwatch("custom");
     }
+
+    /* ---- error + hint toasts ----------------------------------------- */
 
     function clearError() {
         clearTimeout(errorTimer);
         errorEl.classList.remove("visible");
         errorEl.textContent = "";
+    }
+
+    function showError(message) {
+        clearTimeout(errorTimer);
+        errorEl.textContent = message;
+        errorEl.classList.add("visible");
+        errorTimer = setTimeout(function () {
+            errorEl.classList.remove("visible");
+            errorEl.textContent = "";
+        }, 1300);
     }
 
     function hideHint() {
@@ -99,6 +96,8 @@
         hintToast.classList.add("visible");
         hintTimer = setTimeout(hideHint, 4800);
     }
+
+    /* ---- panel visibility & auto-hide -------------------------------- */
 
     function shouldPauseAutoHide() {
         var active = document.activeElement;
@@ -191,31 +190,12 @@
         hidePanel();
     }
 
-    function showError(message) {
-        clearTimeout(errorTimer);
-        errorEl.textContent = message;
-        errorEl.classList.add("visible");
-        errorTimer = setTimeout(function () {
-            errorEl.classList.remove("visible");
-            errorEl.textContent = "";
-        }, 1300);
-    }
-
     function tryApplyCustomColor() {
         var value = input.value.trim();
-        if (!value) {
-            showError("Invalid color");
-            setCustomVisible(true, true);
-            resetHideTimer();
-            return;
-        }
-
-        if (color.isValid(value)) {
-            setColor(value, "custom");
+        if (value && store.setColor(value)) {
             finalizeColorSelection();
             return;
         }
-
         showError("Invalid color");
         setCustomVisible(true, true);
         resetHideTimer();
@@ -231,8 +211,10 @@
         } catch (_err) {}
     }
 
-    function applyPresetShortcut(color) {
-        setColor(color, color);
+    /* ---- shortcut actions -------------------------------------------- */
+
+    function applyPresetShortcut(name) {
+        selectColor(name);
         if (panelVisible) {
             finalizeColorSelection();
         }
@@ -278,10 +260,12 @@
         }
     }
 
+    /* ---- wiring ------------------------------------------------------- */
+
     presetButtons.forEach(function (button) {
         button.addEventListener("click", function (event) {
             event.stopPropagation();
-            setColor(button.getAttribute("data-color"), button.getAttribute("data-color"));
+            selectColor(button.getAttribute("data-color"));
             finalizeColorSelection();
         });
     });
@@ -450,8 +434,11 @@
         }
     });
 
+    /* ---- init --------------------------------------------------------- */
+
+    store.subscribe(render);
     updatePinUi();
-    setColor(currentColor, "black");
     setCustomVisible(false, false);
     setHelpVisible(false);
+    store.load();
 })();
