@@ -15,6 +15,19 @@
     var pinLabel = document.getElementById("pinLabel");
     var hintToast = document.getElementById("hintToast");
     var themeColorMeta = document.getElementById("themeColorMeta");
+    var brightnessSlider = document.getElementById("brightnessSlider");
+    var indicator = document.getElementById("indicator");
+    var indIcon = indicator.querySelector(".ind-icon");
+    var indValue = indicator.querySelector(".ind-value");
+
+    var SUN_SVG =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+        'stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/>' +
+        '<path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2' +
+        'M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+
+    var BRIGHTNESS_STEP = 0.05;
+    var DRAG_THRESHOLD = 8;
 
     var panelVisible = false;
     var customVisible = false;
@@ -24,6 +37,8 @@
     var errorTimer = null;
     var hintTimer = null;
     var hintDelayTimer = null;
+    var indicatorTimer = null;
+    var drag = null;
     var hoverHintsEnabled = !!(
         window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches
     );
@@ -34,6 +49,7 @@
     /* ---- rendering ---------------------------------------------------- */
 
     function render() {
+        var state = store.get();
         var css = store.displayedCss();
         document.body.style.backgroundColor = css;
         colorDot.style.background = css;
@@ -42,6 +58,30 @@
         }
         document.body.classList.toggle("ui-light", store.isLight());
         setActiveSwatch(store.activeSwatch());
+
+        var brightnessPct = Math.round(state.brightness * 100);
+        if (brightnessSlider.value !== String(brightnessPct)) {
+            brightnessSlider.value = brightnessPct;
+        }
+        brightnessSlider.style.setProperty("--fill", brightnessPct + "%");
+    }
+
+    function showIndicator(iconSvg, text) {
+        indIcon.innerHTML = iconSvg;
+        indValue.textContent = text;
+        indicator.classList.add("visible");
+        clearTimeout(indicatorTimer);
+        indicatorTimer = setTimeout(function () {
+            indicator.classList.remove("visible");
+        }, 900);
+    }
+
+    function nudgeBrightness(delta, withHud) {
+        var next = store.get().brightness + delta;
+        store.setBrightness(next);
+        if (withHud) {
+            showIndicator(SUN_SVG, Math.round(store.get().brightness * 100) + "%");
+        }
     }
 
     function setActiveSwatch(active) {
@@ -300,6 +340,11 @@
         resetHideTimer();
     });
 
+    brightnessSlider.addEventListener("input", function () {
+        store.setBrightness(brightnessSlider.value / 100);
+        resetHideTimer();
+    });
+
     panel.addEventListener("pointerdown", function (event) {
         event.stopPropagation();
         resetHideTimer();
@@ -351,7 +396,50 @@
         if (panel.contains(event.target)) {
             return;
         }
-        showPanel(false);
+        if (event.pointerType === "mouse" && event.button !== 0) {
+            return;
+        }
+        drag = {
+            id: event.pointerId,
+            startX: event.clientX,
+            startY: event.clientY,
+            startBrightness: store.get().brightness,
+            moved: false,
+        };
+    });
+
+    document.addEventListener("pointermove", function (event) {
+        if (!drag || event.pointerId !== drag.id) {
+            return;
+        }
+        var dx = event.clientX - drag.startX;
+        var dy = event.clientY - drag.startY;
+        if (!drag.moved) {
+            if (Math.abs(dx) < DRAG_THRESHOLD && Math.abs(dy) < DRAG_THRESHOLD) {
+                return;
+            }
+            drag.moved = true;
+        }
+        // Vertical drag controls brightness; dragging up brightens.
+        var range = Math.max(120, window.innerHeight * 0.6);
+        store.setBrightness(drag.startBrightness + -dy / range);
+        showIndicator(SUN_SVG, Math.round(store.get().brightness * 100) + "%");
+    });
+
+    function endDrag(event) {
+        if (!drag || event.pointerId !== drag.id) {
+            return;
+        }
+        var moved = drag.moved;
+        drag = null;
+        if (!moved) {
+            showPanel(false);
+        }
+    }
+
+    document.addEventListener("pointerup", endDrag);
+    document.addEventListener("pointercancel", function () {
+        drag = null;
     });
 
     document.addEventListener("pointermove", function (event) {
@@ -395,6 +483,15 @@
         if (key === "?" || (key === "/" && event.shiftKey)) {
             event.preventDefault();
             setHelpVisible(!helpVisible);
+            return;
+        }
+
+        if (key === "ArrowUp" || key === "ArrowDown") {
+            if (active && active.type === "range") {
+                return; // native range handles arrows; its input event applies it
+            }
+            event.preventDefault();
+            nudgeBrightness(key === "ArrowUp" ? BRIGHTNESS_STEP : -BRIGHTNESS_STEP, !panelVisible);
             return;
         }
 

@@ -54,6 +54,12 @@
           <span>+</span>
         </button>
       </div>
+      <div class="slider-row" id="brightnessRow">
+        <span class="slider-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        </span>
+        <input id="brightnessSlider" class="slider slider-brightness" type="range" min="0" max="100" step="1" value="100" aria-label="Brightness">
+      </div>
       <form id="customForm" class="custom-form" novalidate aria-hidden="true">
         <span id="colorDot" class="color-dot" aria-hidden="true"></span>
         <label class="visually-hidden" for="colorInput">Custom color</label>
@@ -95,6 +101,11 @@
   </div>
 
   <div id="hintToast" class="hint-toast" aria-live="polite">Click anywhere for controls</div>
+
+  <div id="indicator" class="indicator" aria-hidden="true">
+    <span class="ind-icon" aria-hidden="true"></span>
+    <span class="ind-value"></span>
+  </div>
 
   <script src="/assets/js/color.js"></script>
   <script src="/assets/js/store.js"></script>
